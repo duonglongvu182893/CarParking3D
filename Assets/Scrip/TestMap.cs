@@ -21,7 +21,7 @@ public class TestMap : MonoBehaviour
     public List<Vector3> positionIntialCar = new List<Vector3>();
     public List<Vector3> positionInMap = new List<Vector3>();
 
-    public List<Vector3> positionDelete = new List<Vector3>();
+    //public List<Vector3> positionDelete = new List<Vector3>();
 
     public List<GameObject> car = new List<GameObject>();
     public List<GameObject> carIsOnMap = new List<GameObject>();
@@ -50,10 +50,13 @@ public class TestMap : MonoBehaviour
 
         GetInformationFromInspector();
         GenFloor();
+        GenBoder();
+
+
         CreateCar(numberOfCar);
 
 
-        if(carIsOnMap.Count != numberOfCar)
+        if (carIsOnMap.Count != numberOfCar)
         {
             Debug.Log("co chay vao while");
             while (k > 0)
@@ -61,15 +64,15 @@ public class TestMap : MonoBehaviour
                 Debug.Log(k);
                 ResetToReSpaw();
                 k--;
-                if(carIsOnMap.Count == numberOfCar)
+                if (carIsOnMap.Count == numberOfCar)
                 {
                     break;
                 }
-                else if( k == 0)
+                else if (k == 0)
                 {
                     Debug.Log("khong the gen");
                 }
-                
+
             }
         }
 
@@ -176,7 +179,7 @@ public class TestMap : MonoBehaviour
             }
         }
 
-        GenBoder();
+
         //ControllRoad();
 
 
@@ -330,7 +333,7 @@ public class TestMap : MonoBehaviour
     [System.Obsolete]
     public GameObject PickCar(int id)
     {
-        int indx = Random.RandomRange(0, car.Count);
+       // int indx = Random.RandomRange(0, car.Count);
         //return car[indx];
         return car[id];
 
@@ -505,7 +508,7 @@ public class TestMap : MonoBehaviour
         {
             Destroy(carIsOnMap[i]);
         }
-        carIsOnMap.RemoveRange(0, carIsOnMap.Count);
+        carIsOnMap.Clear();
 
         RandomIntialPosition();
 

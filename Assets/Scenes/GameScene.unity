@@ -165,7 +165,6 @@ MonoBehaviour:
     m_Bits: 192
   positionIntialCar: []
   positionInMap: []
-  positionDelete: []
   car:
   - {fileID: 6858084075235904068, guid: d367db0c68ecd4a9a9b7b616b9849c1f, type: 3}
   - {fileID: 3216237237453544002, guid: e20d01093cea6479aa42b620362d583d, type: 3}
