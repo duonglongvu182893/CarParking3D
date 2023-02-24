@@ -170,7 +170,7 @@ MonoBehaviour:
   - {fileID: 3216237237453544002, guid: e20d01093cea6479aa42b620362d583d, type: 3}
   carIsOnMap: []
   FloorGen: []
-  idCar: 0100000000000000000000000100000000000000010000000100000000000000010000000000000000000000010000000000000001000000000000000100000000000000
+  idCar: 01000000000000000000000001000000000000000100000001000000000000000100000000000000000000000100000000000000010000000000000001000000000000000000000000000000
   numberCartype1: 0
   numberCartype2: 0
   posIsUse: {x: 0, y: 0, z: 0}
@@ -3827,7 +3827,7 @@ GameObject:
   - component: {fileID: 1968677468}
   - component: {fileID: 1968677467}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ResetMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3900,7 +3900,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 20617877}
         m_TargetAssemblyTypeName: TestMap, Assembly-CSharp
-        m_MethodName: ResetToReSpaw
+        m_MethodName: ResetRandomGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

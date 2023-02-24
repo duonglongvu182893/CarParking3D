@@ -43,6 +43,8 @@ public class TestMap : MonoBehaviour
     public int k = 5;
 
     public static TestMap instance;
+
+
     // Start is called before the first frame update
     [System.Obsolete]
 
@@ -50,6 +52,7 @@ public class TestMap : MonoBehaviour
     void Start()
     {
 
+        GetInformationFromInspector();
         StartGenMap();
 
         NumberOfCar();
@@ -57,9 +60,10 @@ public class TestMap : MonoBehaviour
         {
             while (k > 0)
             {
-                k--;
+               
 
-                ResetToReSpaw();
+                //ResetToReSpaw();
+                StartCoroutine(delay());
                 if (carIsOnMap.Count == numberOfCar)
                 {
                     break;
@@ -71,6 +75,7 @@ public class TestMap : MonoBehaviour
                     Debug.Log("khong the gen");
                     isRunReset = false;
                 }
+                k--;
             }
 
         }
@@ -79,7 +84,7 @@ public class TestMap : MonoBehaviour
     
     public void StartGenMap()
     {
-        GetInformationFromInspector();
+        
         GenFloor();
         GenBoder();
         CreadRoad.instance.Test();
@@ -478,22 +483,29 @@ public class TestMap : MonoBehaviour
 
     }
     //Reset toan bo map
-    public void ResetToReSpaw()
+   
+
+    public void ResetRandomGame()
     {
+  
+        StartCoroutine(delay());
+    }
+    IEnumerator delay()
+    {
+        
         for (int i = 0; i < carIsOnMap.Count; i++)
         {
             Destroy(carIsOnMap[i]);
         }
         carIsOnMap.Clear();
 
-
-
         positionIntialCar.Clear();
 
+        yield return new WaitForSeconds(1f);
         RandomIntialPosition();
 
         CreateCar();
 
-
+        
     }
 }
