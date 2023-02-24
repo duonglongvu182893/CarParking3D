@@ -15,5 +15,7 @@ MonoBehaviour:
   sizeX: 0
   sizeZ: 0
   numberCar: 0
-  carType1: []
-  carType2: []
+  positionCarType1: []
+  quaternionCarType1: []
+  positionCarType2: []
+  quaternionCarType2: []

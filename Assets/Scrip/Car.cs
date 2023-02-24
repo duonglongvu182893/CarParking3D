@@ -11,6 +11,28 @@ class Car : MonoBehaviour
 
     public int id;
 
-   
+    public Quaternion rotation;
+
+
+    public void SetRotation(Quaternion rotationQ)
+    {
+        
+        rotation = rotationQ;
+    }
+    public int GetID()
+    {
+        return id;
+    }
+    public float GetOffset()
+    {
+        return offSet;
+    }
+
+    public Quaternion GetRotation()
+    {
+        return rotation;
+    }
+
+
 
 }

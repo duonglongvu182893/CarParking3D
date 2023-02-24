@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class Selection : MonoBehaviour
 {
+    internal static object activeObject;
     public float rayLeangth;
     public LayerMask layerMask;
 
