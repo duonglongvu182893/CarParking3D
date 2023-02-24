@@ -51,32 +51,33 @@ public class TestMap : MonoBehaviour
         GetInformationFromInspector();
         GenFloor();
         GenBoder();
-
-
         CreateCar(numberOfCar);
 
 
         if (carIsOnMap.Count != numberOfCar)
         {
-            Debug.Log("co chay vao while");
             while (k > 0)
             {
-                Debug.Log(k);
+
+                //ResetToReSpaw();
+                Debug.Log(carIsOnMap.Count);
                 ResetToReSpaw();
-                k--;
+                CreateCar(numberOfCar);
                 if (carIsOnMap.Count == numberOfCar)
                 {
                     break;
                 }
-                else if (k == 0)
+                k--;
+                if (k == 0)
                 {
                     Debug.Log("khong the gen");
                 }
-
             }
+
+            //Debug.Log("dang chay");
+
         }
 
-       
         //CreateCar(numberOfCar);
 
     }
@@ -91,15 +92,15 @@ public class TestMap : MonoBehaviour
         NumberOfCar();
 
         
+        
+        
 
     }
 
     [System.Obsolete]
     public void CreateCar(int number)
     {
-     
         CreadRoad.instance.Test();
-
         for (int i = 0; i < idCar.Length; i++)
         {
             if(positionIntialCar.Count > 0)
@@ -113,7 +114,7 @@ public class TestMap : MonoBehaviour
         int inx = Random.RandomRange(0, positionIntialCar.Count);
 
         GameObject CloneCar = PickCar(id);
-        if (positionIntialCar.Count > 0)
+        if (positionIntialCar.Count > 0 )
         {
             if (CheckCanChoose(CloneCar, positionIntialCar[inx]))
             {
@@ -501,7 +502,7 @@ public class TestMap : MonoBehaviour
 
     }
 
-    
+
     public void ResetToReSpaw()
     {
         for (int i = 0; i < carIsOnMap.Count; i++)
@@ -510,10 +511,19 @@ public class TestMap : MonoBehaviour
         }
         carIsOnMap.Clear();
 
+        positionIntialCar.Clear();
+
+
         RandomIntialPosition();
 
 
-        CreateCar(numberOfCar);
+
+        
+
+        
     }
+
+
+  
 
 }
