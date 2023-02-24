@@ -38,6 +38,7 @@ public class TestMap : MonoBehaviour
     public Vector3 posIsUse;
     public Vector3 posIsUse2;
 
+    public bool isRunReset = false;
 
     public int k = 5;
 
@@ -47,13 +48,33 @@ public class TestMap : MonoBehaviour
     void Start()
     {
 
-
-
         GetInformationFromInspector();
-        
+        GenFloor();
         CreateCar(numberOfCar);
 
 
+        if(carIsOnMap.Count != numberOfCar)
+        {
+            Debug.Log("co chay vao while");
+            while (k > 0)
+            {
+                Debug.Log(k);
+                ResetToReSpaw();
+                k--;
+                if(carIsOnMap.Count == numberOfCar)
+                {
+                    break;
+                }
+                else if( k == 0)
+                {
+                    Debug.Log("khong the gen");
+                }
+                
+            }
+        }
+
+       
+        //CreateCar(numberOfCar);
 
     }
     private void Awake()
@@ -66,13 +87,14 @@ public class TestMap : MonoBehaviour
     {
         NumberOfCar();
 
+        
 
     }
 
     [System.Obsolete]
     public void CreateCar(int number)
     {
-        GenFloor();
+     
         CreadRoad.instance.Test();
 
         for (int i = 0; i < idCar.Length; i++)
@@ -99,25 +121,10 @@ public class TestMap : MonoBehaviour
             {
                 positionIntialCar.RemoveAt(inx);
                 RunAgaint(id);
-
-            }
-
-        }
-        else
-        {
-            if(k > 0)
-            {
-                ResetMap();
-
-                CreateCar(numberOfCar);
-
-                k--;
-            }
-            else
-            {
-                Debug.Log("khong chay duoc");
             }
         }
+        
+       
         
     }
     
@@ -382,13 +389,8 @@ public class TestMap : MonoBehaviour
         {
             Destroy(carIsOnMap[i]);
         }
-        for (int i = 0; i < carIsOnMap.Count; i++)
-        {
-            if (carIsOnMap[i] == null)
-            {
-                carIsOnMap.RemoveAt(i);
-            }
-        }
+        carIsOnMap.RemoveRange(0, carIsOnMap.Count);
+
     }
     public bool CheckCanChoose(GameObject g , Vector3 pos)
    { 
@@ -496,10 +498,19 @@ public class TestMap : MonoBehaviour
 
     }
 
-    IEnumerator delay()
+    
+    public void ResetToReSpaw()
     {
-        yield return new WaitForSeconds(1f);
+        for (int i = 0; i < carIsOnMap.Count; i++)
+        {
+            Destroy(carIsOnMap[i]);
+        }
+        carIsOnMap.RemoveRange(0, carIsOnMap.Count);
+
+        RandomIntialPosition();
+
+
         CreateCar(numberOfCar);
     }
-    
+
 }
