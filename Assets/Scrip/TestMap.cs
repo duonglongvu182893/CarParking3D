@@ -45,66 +45,66 @@ public class TestMap : MonoBehaviour
     public static TestMap instance;
     // Start is called before the first frame update
     [System.Obsolete]
+
+    
     void Start()
     {
 
-        GetInformationFromInspector();
-        GenFloor();
-        GenBoder();
-        CreateCar(numberOfCar);
+        StartGenMap();
 
-
+        NumberOfCar();
         if (carIsOnMap.Count != numberOfCar)
         {
             while (k > 0)
             {
+                k--;
 
-                //ResetToReSpaw();
-                Debug.Log(carIsOnMap.Count);
                 ResetToReSpaw();
-                CreateCar(numberOfCar);
                 if (carIsOnMap.Count == numberOfCar)
                 {
                     break;
                 }
-                k--;
+
+
                 if (k == 0)
                 {
                     Debug.Log("khong the gen");
+                    isRunReset = false;
                 }
             }
 
-            //Debug.Log("dang chay");
-
         }
 
-        //CreateCar(numberOfCar);
-
     }
+    
+    public void StartGenMap()
+    {
+        GetInformationFromInspector();
+        GenFloor();
+        GenBoder();
+        CreadRoad.instance.Test();
+        CreateCar();
+    }
+
     private void Awake()
     {
         instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        NumberOfCar();
-
+       
         
-        
-        
-
     }
-
     [System.Obsolete]
-    public void CreateCar(int number)
+    public void CreateCar()
     {
-        CreadRoad.instance.Test();
+       
         for (int i = 0; i < idCar.Length; i++)
         {
-            if(positionIntialCar.Count > 0)
-            {
+            if (positionIntialCar.Count > 0)
+            { 
+            
                 RunAgaint(idCar[i]);
             }
         }
@@ -116,17 +116,21 @@ public class TestMap : MonoBehaviour
         GameObject CloneCar = PickCar(id);
         if (positionIntialCar.Count > 0 )
         {
+            
             if (CheckCanChoose(CloneCar, positionIntialCar[inx]))
             {
                 GenCar(positionIntialCar[inx], CloneCar);
 
+            
             }
-            else
+            else if (!CheckCanChoose(CloneCar, positionIntialCar[inx]))
             {
-                positionIntialCar.RemoveAt(inx);
+               
+               positionIntialCar.RemoveAt(inx);
                 RunAgaint(id);
             }
         }
+
         
        
         
@@ -196,6 +200,7 @@ public class TestMap : MonoBehaviour
     [System.Obsolete]
     public void GenCar(Vector3 pos, GameObject g)
     {
+        
         RaycastHit hit;
         if (pos.x == sizeX + 1)
         {
@@ -282,9 +287,7 @@ public class TestMap : MonoBehaviour
                 if (carSpaw.GetComponent<Collider>().bounds.min.z > sizeZ + 0.7f || carSpaw.GetComponent<Collider>().bounds.max.z > sizeZ + 0.7f)
                 {
                     // Destroy(carSpaw);
-                    Debug.Log("xe pos" + (pos.z - 1));
-                    Debug.Log(" va so voi xe min z: " + carSpaw.GetComponent<Collider>().bounds.min.z);
-                    Debug.Log(" va so voi xe max z: " + carSpaw.GetComponent<Collider>().bounds.max.z);
+                    
                     carSpaw.active = false;
                     
                 }
@@ -313,9 +316,7 @@ public class TestMap : MonoBehaviour
                 if (carSpaw.GetComponent<Collider>().bounds.min.z < -sizeZ - 0.7f || carSpaw.GetComponent<Collider>().bounds.max.z < -sizeZ - 0.7f)
                 {
                     // Destroy(carSpaw);
-                    Debug.Log("xe pos " + pos.z + 1);
-                    Debug.Log(" va so voi xe min z: " + carSpaw.GetComponent<Collider>().bounds.min.z);
-                    Debug.Log(" va so voi xe max z: " + carSpaw.GetComponent<Collider>().bounds.max.z);
+                    
                     carSpaw.active = false;
                     
                 }
@@ -357,45 +358,19 @@ public class TestMap : MonoBehaviour
         {
             Destroy(carIsOnMap[i]);
         }
-        for (int i = 0; i < carIsOnMap.Count; i++)
-        {
-            if (carIsOnMap[i] == null)
-            {
-                carIsOnMap.RemoveAt(i);
-            }
-        }
+        carIsOnMap.Clear();
         for (int i = 0; i < FloorGen.Count; i++)
         {
             Destroy(FloorGen[i]);
         }
-        for (int i = 0; i < FloorGen.Count; i++)
-        {
-            if (FloorGen[i] == null)
-            {
-                FloorGen.RemoveAt(i);
-            }
-        }
-        for (int i = 0; i < positionInMap.Count; i++)
-        {
+        FloorGen.Clear();
 
-            positionInMap.RemoveAt(i);
-        }
-        for (int i = 0; i < positionIntialCar.Count; i++)
-        {
-
-            positionIntialCar.RemoveAt(i);
-        }
+        positionInMap.Clear();
+        positionIntialCar.Clear();
 
     }
-    public void ResetCar()
-    {
-        for (int i = 0; i < carIsOnMap.Count; i++)
-        {
-            Destroy(carIsOnMap[i]);
-        }
-        carIsOnMap.RemoveRange(0, carIsOnMap.Count);
-
-    }
+   
+    //Check vi tri cua xe co duoc phep dat vao khong
     public bool CheckCanChoose(GameObject g , Vector3 pos)
    { 
         float distanceUseble;
@@ -481,6 +456,7 @@ public class TestMap : MonoBehaviour
         return false;
 
     }
+    //Lay thong tin tu inspector
     public void GetInformationFromInspector()
     {
         numberOfCar = idCar.Length;
@@ -501,8 +477,7 @@ public class TestMap : MonoBehaviour
         }
 
     }
-
-
+    //Reset toan bo map
     public void ResetToReSpaw()
     {
         for (int i = 0; i < carIsOnMap.Count; i++)
@@ -511,19 +486,14 @@ public class TestMap : MonoBehaviour
         }
         carIsOnMap.Clear();
 
-        positionIntialCar.Clear();
 
+
+        positionIntialCar.Clear();
 
         RandomIntialPosition();
 
+        CreateCar();
 
 
-        
-
-        
     }
-
-
-  
-
 }
