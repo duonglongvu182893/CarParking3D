@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
     public List<GameObject> Car;
+    public Level levelGame;
+
+    [MenuItem("Assets / NewScriptableObject.asset")]
     // Start is called before the first frame update
     void Start()
     {
@@ -39,5 +43,12 @@ public class GameManager : MonoBehaviour
             GameObject car = Instantiate(Car[0], level.positionCarType2[i], level.quaternionCarType2[i]);
 
         }
+    }
+    public void CreateScriptableObject(string name)
+    {
+        Level levelSave = ScriptableObject.CreateInstance<Level>();
+        AssetDatabase.CreateAsset(levelSave, "Assets/Level/"+name+".asset");
+        AssetDatabase.SaveAssets();
+
     }
 }

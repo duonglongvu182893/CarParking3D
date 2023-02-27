@@ -53,7 +53,7 @@ public class TestMap : MonoBehaviour
     {
 
         
-       // StartGenMap();
+      // StartGenMap();
 
         
 
@@ -61,7 +61,7 @@ public class TestMap : MonoBehaviour
     
     public void StartGenMap()
     {
-        //GetInformationFromInspector();
+        GetInformationFromInspector();
         GenFloor();
         GenBoder();
         CreadRoad.instance.Test();
@@ -487,8 +487,16 @@ public class TestMap : MonoBehaviour
 
     public void ResetRandomGame()
     {
+        if(FloorGen.Count == 0)
+        {
+            StartGenMap();
+        }
+        else
+        {
+            StartCoroutine(delay());
+        }
   
-        StartCoroutine(delay());
+        
     }
     IEnumerator delay()
     {

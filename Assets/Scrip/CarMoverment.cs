@@ -81,16 +81,18 @@ public class CarMoverment : MonoBehaviour
             offset = transform.localScale.x / 2;
             MoveCar(positionHit);
             CheckStop(positionHit);
+            
            
         }
         else if(Run && !isBlock && !outRoad )
         {
             offset = 0f;
             MoveCar(positionHitInRoad);
+            
             if (Vector3.Distance(transform.position, positionHitInRoad) <= 0.05f)
             {
                 outRoad = true;
-                Run = false;
+                
             }
         }
         else if (outRoad)
@@ -110,6 +112,8 @@ public class CarMoverment : MonoBehaviour
                 if (Vector3.Distance(transform.position, new Vector3(position.x - offset, position.y, position.z)) <= stop)
                 {
                     Run = false;
+                    touch = false;
+
                 }
             }
             else
@@ -118,7 +122,9 @@ public class CarMoverment : MonoBehaviour
                 if (Vector3.Distance(transform.position, new Vector3(position.x + offset, position.y, position.z)) <= stop)
                 {
                     Run = false;
+                    touch = false;
                 }
+
 
             }
         }
@@ -127,6 +133,7 @@ public class CarMoverment : MonoBehaviour
             if (Vector3.Distance(transform.position, new Vector3(position.x, position.y, position.z - offset)) <= stop)
             {
                 Run = false;
+                touch = false;
             }
         }
         else if (direction == -1)
@@ -134,6 +141,7 @@ public class CarMoverment : MonoBehaviour
             if (Vector3.Distance(transform.position, new Vector3(position.x, position.y, position.z + offset)) <= stop)
             {
                 Run = false;
+                touch = false;
             }
         }
 
@@ -164,6 +172,7 @@ public class CarMoverment : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, new Vector3(position.x,  position.y, position.z + offset), Time.deltaTime * 3f);
         }
         
+        
     }
    
    void DetectObjectInFront()
@@ -184,34 +193,6 @@ public class CarMoverment : MonoBehaviour
         }
     }
 
-    /*
-    void DetectObjectInFront()
-    {
-        if (Run & !isBlock)
-        {
-            Vector3 direction = -transform.right;
-            RaycastHit[] hit = Physics.RaycastAll(transform.position, (direction), 100f, layerMask);
-
-            if (hit.Length > 0)
-            {
-                for (int i = 0; i < hit.Length; i++)
-                {
-                    if (hit[i].collider != transform.gameObject)
-                    {
-                        isBlock = true;
-                        positionHit = hit[i].point;
-                        hitObj = hit[i].collider.gameObject;
-                    }
-                }
-            }
-            else
-            {
-                isBlock = false;
-                
-            }
-        }
-
-    }*/
     void DetectObjectInRoad()
     {
 
@@ -271,8 +252,6 @@ public class CarMoverment : MonoBehaviour
             }
 
 
-
-
         }
         else if ((num3 < num1 && num3 < num2) && (num4 < num1 && num4 < num2))
         {
@@ -323,6 +302,7 @@ public class CarMoverment : MonoBehaviour
         }
     }
 
+    
     public void SwipScreen()
     {
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
@@ -335,13 +315,15 @@ public class CarMoverment : MonoBehaviour
                 {
 
                     touch = true;
-
+                  
                 }
             }
             else
             {
                 touch = false;
+               
             }
+
         }
         if (touch)
         {
@@ -362,35 +344,39 @@ public class CarMoverment : MonoBehaviour
                     {
                         informationForScreen = Vector3.left;
                         stopTouch = true;
-                       
+                        touch = false;
                     }
                     if (Distance.x > swipeRange)
                     {
-                   
+
                         informationForScreen = Vector3.right;
                         stopTouch = true;
-                      
+                        touch = false;
+
                     }
                     if (Distance.y > swipeRange)
                     {
                         informationForScreen = Vector3.forward;
                         stopTouch = true;
-                        
+                        touch = false;
+
                     }
                     if (Distance.y < -swipeRange)
                     {
                         informationForScreen = Vector3.back;
                         stopTouch = true;
-                        
+                        touch = false;
                     }
 
                 }
-                
+               
+
             }
-            
+
             if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
             {
                 stopTouch = false;
+
                 endPosition = Input.GetTouch(0).position;
                 Vector2 Distance = endPosition - startPosition;
 
@@ -405,13 +391,21 @@ public class CarMoverment : MonoBehaviour
 
                 }
             }
-            if(stopTouch && touch && !Run)
+            if (stopTouch && touch && !Run)
             {
                 dir = Mathf.RoundToInt(Vector3.Dot(transform.right, informationForScreen));
                 Run = true;
             }
         }
-    }
 
     
+
+
+}
+
+
+
+
+
+
 }

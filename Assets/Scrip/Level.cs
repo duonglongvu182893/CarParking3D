@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEditor;
 
 
-[CreateAssetMenu(fileName = "Map Save", menuName = "Level")]
+[CreateAssetMenu]
 
 public class Level : ScriptableObject
 
