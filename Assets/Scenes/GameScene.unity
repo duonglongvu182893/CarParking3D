@@ -621,13 +621,13 @@ MonoBehaviour:
   - {fileID: 2928205029143013891, guid: 1e658ec806cc84c54bbda8d3c20ce533, type: 3}
   carIsOnMap: []
   FloorGen: []
-  idCar: 0100000000000000000000000100000000000000010000000100000000000000010000000000000000000000010000000000000001000000
+  idCar: 01000000000000000000000000000000010000000000000001000000010000000000000001000000000000000100000000000000010000000100000001000000
   numberCartype1: 0
   numberCartype2: 0
   posIsUse: {x: 0, y: 0, z: 0}
   posIsUse2: {x: 0, y: 0, z: 0}
   isRunReset: 0
-  k: 1000
+  k: 200
 --- !u!4 &20617878
 Transform:
   m_ObjectHideFlags: 0
@@ -2109,7 +2109,6 @@ MonoBehaviour:
   sizeX: 3
   sizeZ: 3
   numberOfCar: 39
-  realNumberCar: 0
   boder: {fileID: 1451430448166645960, guid: e8870b87d25d84c059a38c4a4858a031, type: 3}
   Car: {fileID: 1839841604}
   Floor: {fileID: 633437852}
@@ -2125,8 +2124,13 @@ MonoBehaviour:
   - {fileID: 3216237237453544002, guid: e20d01093cea6479aa42b620362d583d, type: 3}
   carIsOnMap: []
   FloorGen: []
+  idCar: 
+  numberCartype1: 0
+  numberCartype2: 0
   posIsUse: {x: 0, y: 0, z: 0}
   posIsUse2: {x: 0, y: 0, z: 0}
+  isRunReset: 0
+  k: 5
 --- !u!4 &531168281
 Transform:
   m_ObjectHideFlags: 0
@@ -2654,10 +2658,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 291e55e8c401e405190ff77ec535b005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Car:
-  - {fileID: 5713494955121217906, guid: cb66b0ea7ed124a75b2dc63c7b1b382a, type: 3}
-  - {fileID: 2928205029143013891, guid: 1e658ec806cc84c54bbda8d3c20ce533, type: 3}
-  levelGame: {fileID: 0}
 --- !u!4 &787868844
 Transform:
   m_ObjectHideFlags: 0

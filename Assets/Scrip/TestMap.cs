@@ -26,6 +26,7 @@ public class TestMap : MonoBehaviour
     public List<GameObject> car = new List<GameObject>();
     public List<GameObject> carIsOnMap = new List<GameObject>();
     public List<GameObject> FloorGen = new List<GameObject>();
+    
 
     public List<RoadOnMap> roadX = new List<RoadOnMap>();
     public List<RoadOnMap> roadZ = new List<RoadOnMap>();
@@ -47,18 +48,12 @@ public class TestMap : MonoBehaviour
 
     // Start is called before the first frame update
     [System.Obsolete]
-
-    
     void Start()
     {
 
+        StartGenMap();
         
-      // StartGenMap();
-
-        
-
     }
-    
     public void StartGenMap()
     {
         GetInformationFromInspector();
@@ -67,45 +62,43 @@ public class TestMap : MonoBehaviour
         CreadRoad.instance.Test();
         CreateCar();
         NumberOfCar();
+        
         if (carIsOnMap.Count != numberOfCar)
         {
+
             while (k > 0)
             {
-
-
-                //ResetToReSpaw();
-                StartCoroutine(delay());
+                GenCarOnMap();
                 if (carIsOnMap.Count == numberOfCar)
                 {
                     break;
                 }
-
-
-                if (k == 0)
+                if (k < 0)
                 {
                     Debug.Log("khong the gen");
-                    isRunReset = false;
                 }
-                k--;
+                Debug.Log(carIsOnMap.Count);
+
+
             }
 
+        } 
+
+    }
+    private void Update()
+    {
+        if (isRunReset)
+        {
+            GenCarOnMap();
         }
     }
-
     private void Awake()
     {
         instance = this;
     }
-
-    private void Update()
-    {
-       
-        
-    }
     [System.Obsolete]
     public void CreateCar()
     {
-       
         for (int i = 0; i < idCar.Length; i++)
         {
             if (positionIntialCar.Count > 0)
@@ -113,6 +106,7 @@ public class TestMap : MonoBehaviour
             
                 RunAgaint(idCar[i]);
             }
+           
         }
     } 
     public void RunAgaint(int id)
@@ -136,12 +130,7 @@ public class TestMap : MonoBehaviour
                 RunAgaint(id);
             }
         }
-
-        
-       
-        
     }
-    
     //Gen san choi
     [System.Obsolete]
     public void GenFloor()
@@ -201,6 +190,7 @@ public class TestMap : MonoBehaviour
         {
             GameObject newBoder = Instantiate(boder, positionIntialCar[i], Quaternion.identity);
             newBoder.transform.parent = Boder.transform;
+         
         }
     }
     [System.Obsolete]
@@ -374,7 +364,6 @@ public class TestMap : MonoBehaviour
         positionIntialCar.Clear();
 
     }
-   
     //Check vi tri cua xe co duoc phep dat vao khong
     public bool CheckCanChoose(GameObject g , Vector3 pos)
    { 
@@ -483,8 +472,6 @@ public class TestMap : MonoBehaviour
 
     }
     //Reset toan bo map
-   
-
     public void ResetRandomGame()
     {
         if(FloorGen.Count == 0)
@@ -495,8 +482,7 @@ public class TestMap : MonoBehaviour
         {
             StartCoroutine(delay());
         }
-  
-        
+
     }
     IEnumerator delay()
     {
@@ -514,6 +500,26 @@ public class TestMap : MonoBehaviour
 
         CreateCar();
 
-        
     }
+    public void GenCarOnMap()
+    {
+        k--;
+    
+        for (int i = 0; i < carIsOnMap.Count; i++)
+        {
+            Destroy(carIsOnMap[i]);
+        }
+        carIsOnMap.Clear();
+  
+        positionIntialCar.Clear();
+
+        GenBoder();
+        RandomIntialPosition();
+
+        CreateCar();
+       
+    }
+
+
+
 }

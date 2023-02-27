@@ -141,7 +141,7 @@ MonoBehaviour:
   isRun: 0
   stopTouch: 0
   touch: 0
-  swipeRange: 50
+  swipeRange: 100
   tapRange: 0
   informationForScreen: {x: 0, y: 0, z: 0}
 --- !u!114 &6199093724373960939
@@ -158,3 +158,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offSet: 2
   id: 1
+  rotation: {x: 0, y: 0, z: 0, w: 0}
+  isChoseCar: 0

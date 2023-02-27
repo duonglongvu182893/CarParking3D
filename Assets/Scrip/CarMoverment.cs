@@ -7,7 +7,7 @@ public class CarMoverment : MonoBehaviour
 {
 
 
-    
+
     public bool Run;
     public bool isBlock;
     public bool isFree;
@@ -22,7 +22,7 @@ public class CarMoverment : MonoBehaviour
     public LayerMask layerMask;
     public LayerMask layerBoder;
     public LayerMask layerSelect;
-    
+
     public Vector3 positionHit;
     public Vector3 positionHitInRoad;
 
@@ -58,7 +58,7 @@ public class CarMoverment : MonoBehaviour
     {
         dir = Left;
         DetectObjectInRoad();
-       
+
 
     }
     // Update is called once per frame
@@ -66,42 +66,45 @@ public class CarMoverment : MonoBehaviour
     {
         SwipScreen();
         DetectObjectInFront();
-       
+
         //SelectFromScreen();
         DetectObjectInRoad();
-       
+
     }
     private void FixedUpdate()
     {
         DetectObjectInFront();
 
-        if (Run && isBlock ) 
+        if (Run && isBlock)
         {
-            
+
             offset = transform.localScale.x / 2;
             MoveCar(positionHit);
             CheckStop(positionHit);
-            
-           
+
+
         }
-        else if(Run && !isBlock && !outRoad )
+        else if (Run && !isBlock && !outRoad)
         {
             offset = 0f;
             MoveCar(positionHitInRoad);
-            
+
             if (Vector3.Distance(transform.position, positionHitInRoad) <= 0.05f)
             {
                 outRoad = true;
-                
+
             }
         }
         else if (outRoad)
         {
+            Run = false;
+            isBlock = false;
             RotateCar();
+            
         }
     }
 
-    public void CheckStop( Vector3 position)
+    public void CheckStop(Vector3 position)
     {
         int direction = Mathf.RoundToInt(Vector3.Dot(dir * transform.right, Vector3.forward));
         if (direction == 0)
@@ -113,7 +116,7 @@ public class CarMoverment : MonoBehaviour
                 {
                     Run = false;
                     touch = false;
-
+                    stopTouch = false;
                 }
             }
             else
@@ -123,6 +126,7 @@ public class CarMoverment : MonoBehaviour
                 {
                     Run = false;
                     touch = false;
+                    stopTouch = false;
                 }
 
 
@@ -134,6 +138,7 @@ public class CarMoverment : MonoBehaviour
             {
                 Run = false;
                 touch = false;
+                stopTouch = false;
             }
         }
         else if (direction == -1)
@@ -142,18 +147,20 @@ public class CarMoverment : MonoBehaviour
             {
                 Run = false;
                 touch = false;
+                stopTouch = false;
             }
         }
 
-        
+
     }
-    public void MoveCar(Vector3 position) {
+    public void MoveCar(Vector3 position)
+    {
 
         int direction = Mathf.RoundToInt(Vector3.Dot(dir * transform.right, Vector3.forward));
-        if(direction == 0)
+        if (direction == 0)
         {
             direction = Mathf.RoundToInt(Vector3.Dot(dir * transform.right, Vector3.right));
-            if( direction == 1)
+            if (direction == 1)
             {
                 transform.position = Vector3.MoveTowards(transform.position, new Vector3(position.x - offset, position.y, position.z), Time.deltaTime * 3f);
             }
@@ -161,21 +168,21 @@ public class CarMoverment : MonoBehaviour
             {
                 transform.position = Vector3.MoveTowards(transform.position, new Vector3(position.x + offset, position.y, position.z), Time.deltaTime * 3f);
             }
-            
+
         }
-        else if(direction == 1)
+        else if (direction == 1)
         {
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(position.x , position.y, position.z - offset), Time.deltaTime * 3f);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(position.x, position.y, position.z - offset), Time.deltaTime * 3f);
         }
-        else if(direction  == -1)
+        else if (direction == -1)
         {
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(position.x,  position.y, position.z + offset), Time.deltaTime * 3f);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(position.x, position.y, position.z + offset), Time.deltaTime * 3f);
         }
-        
-        
+
+
     }
-   
-   void DetectObjectInFront()
+
+    void DetectObjectInFront()
     {
         Vector3 direction = dir * transform.right;
         RaycastHit hit;
@@ -296,116 +303,120 @@ public class CarMoverment : MonoBehaviour
                 {
 
                     Run = true;
- 
+
                 }
             }
         }
     }
 
-    
+
     public void SwipScreen()
     {
-        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+        if (!outRoad)
         {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, 1000f, layerSelect))
+            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
-                if (hit.collider == gameObject.GetComponent<Collider>())
+                RaycastHit hit;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out hit, 1000f, layerSelect))
                 {
+                    if (hit.collider == gameObject.GetComponent<Collider>())
+                    {
 
-                    touch = true;
-                  
+                        touch = true;
+
+                    }
                 }
+                else
+                {
+                    touch = false;
+
+                }
+
             }
-            else
+            else if (Input.GetMouseButtonUp(0))
             {
                 touch = false;
-               
             }
-
-        }
-        if (touch)
-        {
-            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+            if (touch)
             {
-                startPosition = Input.GetTouch(0).position;
-            }
-            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
-            {
-                currentPosition = Input.GetTouch(0).position;
-                Vector2 Distance = currentPosition - startPosition;
-
-
-                if (!stopTouch)
+                if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
                 {
+                    startPosition = Input.GetTouch(0).position;
+                }
+                if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
+                {
+                    currentPosition = Input.GetTouch(0).position;
+                    Vector2 Distance = currentPosition - startPosition;
 
-                    if (Distance.x < -swipeRange)
-                    {
-                        informationForScreen = Vector3.left;
-                        stopTouch = true;
-                        touch = false;
-                    }
-                    if (Distance.x > swipeRange)
+
+                    if (!stopTouch)
                     {
 
-                        informationForScreen = Vector3.right;
-                        stopTouch = true;
-                        touch = false;
+                        if (Distance.x < -swipeRange)
+                        {
+                            informationForScreen = Vector3.left;
+                            stopTouch = true;
+
+                        }
+                        if (Distance.x > swipeRange)
+                        {
+
+                            informationForScreen = Vector3.right;
+                            stopTouch = true;
+
+
+                        }
+                        if (Distance.y > swipeRange)
+                        {
+                            informationForScreen = Vector3.forward;
+                            stopTouch = true;
+
+
+                        }
+                        if (Distance.y < -swipeRange)
+                        {
+                            informationForScreen = Vector3.back;
+                            stopTouch = true;
+
+                        }
 
                     }
-                    if (Distance.y > swipeRange)
-                    {
-                        informationForScreen = Vector3.forward;
-                        stopTouch = true;
-                        touch = false;
 
-                    }
-                    if (Distance.y < -swipeRange)
-                    {
-                        informationForScreen = Vector3.back;
-                        stopTouch = true;
-                        touch = false;
-                    }
 
                 }
-               
 
-            }
-
-            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
-            {
-                stopTouch = false;
-
-                endPosition = Input.GetTouch(0).position;
-                Vector2 Distance = endPosition - startPosition;
-
-                if (Mathf.Abs(Distance.x) < tapRange && Mathf.Abs(Distance.y) < tapRange)
+                if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
                 {
-                    left = false;
-                    right = false;
-                    up = false;
-                    down = false;
-                    tap = true;
-                    touch = true;
+                    stopTouch = false;
 
+                    endPosition = Input.GetTouch(0).position;
+                    Vector2 Distance = endPosition - startPosition;
+
+                    if (Mathf.Abs(Distance.x) < tapRange && Mathf.Abs(Distance.y) < tapRange)
+                    {
+                        left = false;
+                        right = false;
+                        up = false;
+                        down = false;
+                        tap = true;
+                        touch = true;
+
+                    }
+                }
+                if (stopTouch && touch && !Run)
+                {
+                    dir = Mathf.RoundToInt(Vector3.Dot(transform.right, informationForScreen));
+                    Run = true;
                 }
             }
-            if (stopTouch && touch && !Run)
-            {
-                dir = Mathf.RoundToInt(Vector3.Dot(transform.right, informationForScreen));
-                Run = true;
-            }
+
+
+
+
         }
 
-    
-
-
-}
-
-
-
-
-
+    }
+        
 
 }

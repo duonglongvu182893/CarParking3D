@@ -51,12 +51,7 @@ public class Menu : MonoBehaviour
         CreateMap.instance.sizeX = int.Parse(size.text);
         CreateMap.instance.sizeZ = int.Parse(size.text);
         CreateMap.instance.numberOfCar = int.Parse(numberCarWant.text);
-        
-        CreadRoad.instance.CreateRoad();
-        CreateMap.instance.CreateCar(int.Parse(numberCarWant.text));
-          
-
-
+        CreateMap.instance.StartGenMap();
         //CreateMap.instance.CreateCar(CreateMap.instance.numberOfCar);
 
         Camera.transform.position = new Vector3(positionOldCam.x, positionOldCam.y + 3f * CreateMap.instance.sizeX, positionOldCam.z);

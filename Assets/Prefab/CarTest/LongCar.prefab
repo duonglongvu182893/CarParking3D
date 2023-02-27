@@ -159,6 +159,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offSet: 2.5
   id: 0
+  rotation: {x: 0, y: 0, z: 0, w: 0}
+  isChoseCar: 0
 --- !u!1 &6920297651957059833
 GameObject:
   m_ObjectHideFlags: 0

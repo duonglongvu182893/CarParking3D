@@ -5,10 +5,9 @@ using UnityEngine;
 public class CreateMap : MonoBehaviour
 {
 
-    public int sizeX = 1;
-    public int sizeZ = 1;
+    public int sizeX = 2;
+    public int sizeZ = 2;
     public int numberOfCar = 4;
-    public int realNumberCar;
 
     public GameObject boder;
     public GameObject Car;
@@ -17,75 +16,120 @@ public class CreateMap : MonoBehaviour
     public GameObject floor;
 
     public LayerMask layerMask;
-   
+
     public List<Vector3> positionIntialCar = new List<Vector3>();
     public List<Vector3> positionInMap = new List<Vector3>();
+
+    //public List<Vector3> positionDelete = new List<Vector3>();
 
     public List<GameObject> car = new List<GameObject>();
     public List<GameObject> carIsOnMap = new List<GameObject>();
     public List<GameObject> FloorGen = new List<GameObject>();
 
-    //public 
 
+    public List<RoadOnMap> roadX = new List<RoadOnMap>();
+    public List<RoadOnMap> roadZ = new List<RoadOnMap>();
+
+    public int[] idCar;
+
+    public int numberCartype1;
+    public int numberCartype2;
 
     public Vector3 posIsUse;
     public Vector3 posIsUse2;
 
+    public bool isRunReset = false;
+
+    public int k = 5;
+
     public static CreateMap instance;
+
+
     // Start is called before the first frame update
     [System.Obsolete]
     void Start()
     {
-       
-       // CreateCar(numberOfCar);
+
+        StartGenMap();
+
+    }
+    public void StartGenMap()
+    {
+        //GetInformationFromInspector();
+        GenFloor();
+        GenBoder();
+        CreadRoad.instance.CreateRoad();
+        CreateCar();
+        NumberOfCar();
+
+        if (carIsOnMap.Count != numberOfCar)
+        {
+
+            while (k > 0)
+            {
+                GenCarOnMap();
+                if (carIsOnMap.Count == numberOfCar)
+                {
+                    break;
+                }
+                if (k < 0)
+                {
+                    Debug.Log("khong the gen");
+                }
+                Debug.Log(carIsOnMap.Count);
 
 
+            }
+
+        }
+
+    }
+    private void Update()
+    {
+        if (isRunReset)
+        {
+            GenCarOnMap();
+        }
     }
     private void Awake()
     {
         instance = this;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        NumberOfCar();
-    }
-
     [System.Obsolete]
-    public void CreateCar(int number)
+    public void CreateCar()
     {
-        GenFloor();
-
-        /*
-        for (int i = 0; i < number; i++)
+        for (int i = 0; i < idCar.Length; i++)
         {
-            int inx = Random.RandomRange(0, positionIntialCar.Count);
-            GenCar(positionIntialCar[inx]);
-            if(carIsOnMap.Count == realNumberCar)
+            if (positionIntialCar.Count > 0)
             {
-                break;
+
+                RunAgaint(idCar[i]);
             }
-        }*/
-      
-
-        for (int i = 0; i < number; i++)
-        {
-            /*
-            int inx = Random.RandomRange(0, positionIntialCar.Count);
-            GameObject CloneCar = PickCar();
-            
-            if (CheckCanChoose(CloneCar,positionIntialCar[inx]))
-            {
-                GenCar(positionIntialCar[inx], CloneCar);
-            }*/
-            RunAgaint();
 
         }
-
-
     }
+    public void RunAgaint(int id)
+    {
+        int inx = Random.RandomRange(0, positionIntialCar.Count);
 
+        GameObject CloneCar = PickCar(id);
+        if (positionIntialCar.Count > 0)
+        {
+
+            if (CheckCanChoose(CloneCar, positionIntialCar[inx]))
+            {
+                GenCar(positionIntialCar[inx], CloneCar);
+
+
+            }
+            else if (!CheckCanChoose(CloneCar, positionIntialCar[inx]))
+            {
+
+                positionIntialCar.RemoveAt(inx);
+                RunAgaint(id);
+            }
+        }
+    }
     //Gen san choi
     [System.Obsolete]
     public void GenFloor()
@@ -103,15 +147,13 @@ public class CreateMap : MonoBehaviour
         }
         RandomIntialPosition();
     }
-
-
     //Vi tri xung quanh co the day xe vao
     [System.Obsolete]
     public void RandomIntialPosition()
     {
-        for (int i = -sizeX - 1 ; i <= sizeX + 1; i++)
+        for (int i = -sizeX - 1; i <= sizeX + 1; i++)
         {
-            for (int j = -sizeZ - 1 ; j <= sizeZ +1 ; j++)
+            for (int j = -sizeZ - 1; j <= sizeZ + 1; j++)
             {
 
                 if ((i != -sizeX - 1 || j != -sizeZ - 1) && (i != -sizeX - 1 || j != sizeZ + 1) && (i != sizeX + 1 || j != sizeZ + 1) && (i != sizeX + 1 || j != -sizeZ - 1))
@@ -119,7 +161,7 @@ public class CreateMap : MonoBehaviour
                     positionIntialCar.Add(new Vector3(i, 0, j));
 
                 }
-                
+
 
             }
         }
@@ -131,13 +173,14 @@ public class CreateMap : MonoBehaviour
                 {
                     positionIntialCar.RemoveAt(i);
                 }
-                
+
 
             }
         }
-        
-        GenBoder();
-       
+
+
+        //ControllRoad();
+
 
     }
     public void GenBoder()
@@ -146,133 +189,10 @@ public class CreateMap : MonoBehaviour
         {
             GameObject newBoder = Instantiate(boder, positionIntialCar[i], Quaternion.identity);
             newBoder.transform.parent = Boder.transform;
+
         }
     }
-
-    /*
     [System.Obsolete]
-    public void GenCar(Vector3 pos)
-    {
-
-
-        RaycastHit hit;
-        if(pos.x == sizeX + 1)
-        {
-            if (Physics.Raycast(pos, transform.TransformDirection(Vector3.left), out hit, Mathf.Infinity, layerMask))
-            { 
-                GameObject CloneCar = PickCar();
-                float offSet = (CloneCar.transform.localScale.x) / 2;
-                GameObject carSpaw = Instantiate(CloneCar, new Vector3(hit.point.x + offSet, hit.point.y, hit.point.z ), Quaternion.Euler(0, 180, 0));
-                carSpaw.transform.parent = Car.transform;
-                Vector3 bound = carSpaw.GetComponent<Collider>().bounds.min;
-                if(carSpaw.GetComponent<Collider>().bounds.min.x > sizeX + 0.5f || carSpaw.GetComponent<Collider>().bounds.max.x > sizeX+0.5f)
-                {
-
-                    Destroy(carSpaw);
-
-                }
-                else
-                {
-                   
-                    carIsOnMap.Add(carSpaw);
-
-
-                }
-                
-                
-           
-            }
-            else
-            {
-                Debug.Log("khong trung");
-            }
-        }
-        
-        if(pos.x == -sizeX - 1)
-        {
-            if (Physics.Raycast(pos, transform.TransformDirection(Vector3.right), out hit, Mathf.Infinity, layerMask))
-            {
-
-                GameObject CloneCar = PickCar();
-                float offSet = (CloneCar.transform.localScale.x) / 2;
-                GameObject carSpaw = Instantiate(CloneCar, new Vector3(hit.point.x - offSet, hit.point.y, hit.point.z), Quaternion.Euler(0, 0, 0));
-                //GameObject carSpaw = Instantiate(CloneCar, hit.point, Quaternion.Euler(0, 0, 0));
-                carSpaw.transform.parent = Car.transform;
-                Vector3 bound = carSpaw.GetComponent<Collider>().bounds.min;
-                if (carSpaw.GetComponent<Collider>().bounds.min.x < - sizeX -  0.5f || carSpaw.GetComponent<Collider>().bounds.max.x < - sizeX - 0.5f)
-                {
-                    Destroy(carSpaw);
-                }
-                else
-                {
-                    carIsOnMap.Add(carSpaw);
-                  
-                }
-                
-
-            }
-            else
-            {
-                Debug.Log("khong trung");
-            }
-        }
-        
-        if (pos.z == sizeZ + 1)
-        {
-            if (Physics.Raycast(pos, transform.TransformDirection(Vector3.back), out hit, Mathf.Infinity, layerMask))
-            {
-
-                GameObject CloneCar = PickCar();
-                float offSet = (CloneCar.transform.localScale.x) / 2;
-                GameObject carSpaw = Instantiate(CloneCar, new Vector3(hit.point.x, hit.point.y, hit.point.z + offSet), Quaternion.Euler(0, 90, 0));
-                carSpaw.transform.parent = Car.transform;
-                if (carSpaw.GetComponent<Collider>().bounds.min.z > sizeZ + 0.5f || carSpaw.GetComponent<Collider>().bounds.max.z > sizeX + 0.5f)
-                {
-                    Destroy(carSpaw);
-                }
-                else
-                {
-                    carIsOnMap.Add(carSpaw);
-
-                }
-            }
-            else
-            {
-                Debug.Log("khong trung");
-            }
-        }
-        if (pos.z == -sizeZ - 1)
-        {
-            if (Physics.Raycast(pos, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
-            {
-
-                GameObject CloneCar = PickCar();
-                float offSet = (CloneCar.transform.localScale.x) / 2;
-                GameObject carSpaw = Instantiate(CloneCar, new Vector3(hit.point.x, hit.point.y, hit.point.z - offSet), Quaternion.Euler(0, -90, 0));
-                carSpaw.transform.parent = Car.transform;
-                
-                if (carSpaw.GetComponent<Collider>().bounds.min.z < -sizeZ - 0.5f || carSpaw.GetComponent<Collider>().bounds.max.z < sizeX - 0.5f)
-                {
-                    Destroy(carSpaw);
-                }
-                else
-                {
-                    carIsOnMap.Add(carSpaw);
-
-                }
-            }
-            else
-            {
-                Debug.Log("khong trung");
-            }
-        }
-
-
-
-        //
-       
-    }*/
-
     public void GenCar(Vector3 pos, GameObject g)
     {
 
@@ -286,8 +206,8 @@ public class CreateMap : MonoBehaviour
                 float offSet = (g.transform.localScale.x) / 2;
 
                 GameObject carSpaw = Instantiate(g, new Vector3(hit.point.x + offSet, hit.point.y, hit.point.z), Quaternion.Euler(0, 180, 0));
-                Debug.Log("da spaw");
 
+                carSpaw.GetComponent<Car>().SetRotation(Quaternion.Euler(0, 180, 0));
                 carSpaw.transform.parent = Car.transform;
 
 
@@ -296,9 +216,7 @@ public class CreateMap : MonoBehaviour
                 {
 
                     //Destroy(carSpaw);
-                    Debug.Log("xe pos" + (pos.z - 1));
-                    Debug.Log(" va so voi xe min z: " + carSpaw.GetComponent<Collider>().bounds.min.z);
-                    Debug.Log(" va so voi xe max z: " + carSpaw.GetComponent<Collider>().bounds.max.z);
+
                     carSpaw.active = false;
 
 
@@ -323,16 +241,14 @@ public class CreateMap : MonoBehaviour
 
                 float offSet = (g.transform.localScale.x) / 2;
                 GameObject carSpaw = Instantiate(g, new Vector3(hit.point.x - offSet, hit.point.y, hit.point.z), Quaternion.Euler(0, 0, 0));
-                Debug.Log("da spaw");
-                //GameObject carSpaw = Instantiate(CloneCar, hit.point, Quaternion.Euler(0, 0, 0));
+
+                carSpaw.GetComponent<Car>().SetRotation(Quaternion.Euler(0, 0, 0));
                 carSpaw.transform.parent = Car.transform;
                 Vector3 bound = carSpaw.GetComponent<Collider>().bounds.min;
                 if (carSpaw.GetComponent<Collider>().bounds.min.x < -sizeX - 0.7f || carSpaw.GetComponent<Collider>().bounds.max.x < -sizeX - 0.7f)
                 {
                     //Destroy(carSpaw);
-                    Debug.Log("xe pos" + (pos.z - 1));
-                    Debug.Log(" va so voi xe min z: " + carSpaw.GetComponent<Collider>().bounds.min.z);
-                    Debug.Log(" va so voi xe max z: " + carSpaw.GetComponent<Collider>().bounds.max.z);
+
                     carSpaw.active = false;
 
                 }
@@ -358,16 +274,13 @@ public class CreateMap : MonoBehaviour
 
                 float offSet = (g.transform.localScale.x) / 2;
                 GameObject carSpaw = Instantiate(g, new Vector3(hit.point.x, hit.point.y, hit.point.z + offSet), Quaternion.Euler(0, 90, 0));
-                Debug.Log("da spaw");
-                carSpaw.transform.parent = Car.transform;
 
-                
+                carSpaw.GetComponent<Car>().SetRotation(Quaternion.Euler(0, 90, 0));
+                carSpaw.transform.parent = Car.transform;
                 if (carSpaw.GetComponent<Collider>().bounds.min.z > sizeZ + 0.7f || carSpaw.GetComponent<Collider>().bounds.max.z > sizeZ + 0.7f)
                 {
                     // Destroy(carSpaw);
-                    Debug.Log("xe pos" + (pos.z - 1));
-                    Debug.Log(" va so voi xe min z: " + carSpaw.GetComponent<Collider>().bounds.min.z);
-                    Debug.Log(" va so voi xe max z: " + carSpaw.GetComponent<Collider>().bounds.max.z);
+
                     carSpaw.active = false;
 
                 }
@@ -390,15 +303,14 @@ public class CreateMap : MonoBehaviour
 
                 float offSet = (g.transform.localScale.x) / 2;
                 GameObject carSpaw = Instantiate(g, new Vector3(hit.point.x, hit.point.y, hit.point.z - offSet), Quaternion.Euler(0, -90, 0));
-                Debug.Log("da spaw");
+
+                carSpaw.GetComponent<Car>().SetRotation(Quaternion.Euler(0, -90, 0));
                 carSpaw.transform.parent = Car.transform;
 
                 if (carSpaw.GetComponent<Collider>().bounds.min.z < -sizeZ - 0.7f || carSpaw.GetComponent<Collider>().bounds.max.z < -sizeZ - 0.7f)
                 {
                     // Destroy(carSpaw);
-                    Debug.Log("xe pos " + pos.z + 1);
-                    Debug.Log(" va so voi xe min z: " + carSpaw.GetComponent<Collider>().bounds.min.z);
-                    Debug.Log(" va so voi xe max z: " + carSpaw.GetComponent<Collider>().bounds.max.z);
+
                     carSpaw.active = false;
 
                 }
@@ -414,39 +326,24 @@ public class CreateMap : MonoBehaviour
             }
         }
     }
-    public void RunAgaint()
-    {
-        int inx = Random.RandomRange(0, positionIntialCar.Count);
-        GameObject CloneCar = PickCar();
-
-        if (CheckCanChoose(CloneCar, positionIntialCar[inx]))
-        {
-            GenCar(positionIntialCar[inx], CloneCar);
-
-        }
-        else
-        {
-            RunAgaint();
-        }
-    }
-
-
     [System.Obsolete]
-    public GameObject PickCar()
+    public GameObject PickCar(int id)
     {
-        int indx = Random.RandomRange(0, car.Count);
-        return car[indx];
+        // int indx = Random.RandomRange(0, car.Count);
+        //return car[indx];
+        return car[id];
+
     }
     public void NumberOfCar()
     {
-        for(int i = 0; i < carIsOnMap.Count; i++)
+        for (int i = 0; i < carIsOnMap.Count; i++)
         {
-            if(carIsOnMap[i] == null)
+            if (carIsOnMap[i] == null)
             {
                 carIsOnMap.RemoveAt(i);
             }
         }
-        
+
     }
     public void ResetMap()
     {
@@ -455,51 +352,18 @@ public class CreateMap : MonoBehaviour
         {
             Destroy(carIsOnMap[i]);
         }
-        for (int i = 0; i < carIsOnMap.Count; i++)
-        {
-            if (carIsOnMap[i] == null)
-            {
-                carIsOnMap.RemoveAt(i);
-            }
-        }
+        carIsOnMap.Clear();
         for (int i = 0; i < FloorGen.Count; i++)
         {
             Destroy(FloorGen[i]);
         }
-        for (int i = 0; i < FloorGen.Count; i++)
-        {
-            if (FloorGen[i] == null)
-            {
-                FloorGen.RemoveAt(i);
-            }
-        }
-        for (int i = 0; i < positionInMap.Count; i++)
-        {
+        FloorGen.Clear();
 
-            positionInMap.RemoveAt(i);
-        }
-        for (int i = 0; i < positionIntialCar.Count; i++)
-        {
-
-            positionIntialCar.RemoveAt(i);
-        }
+        positionInMap.Clear();
+        positionIntialCar.Clear();
 
     }
-    public void ResetCar()
-    {
-        for (int i = 0; i < carIsOnMap.Count; i++)
-        {
-            Destroy(carIsOnMap[i]);
-        }
-        for (int i = 0; i < carIsOnMap.Count; i++)
-        {
-            if (carIsOnMap[i] == null)
-            {
-                carIsOnMap.RemoveAt(i);
-            }
-        }
-    }
-
+    //Check vi tri cua xe co duoc phep dat vao khong
     public bool CheckCanChoose(GameObject g, Vector3 pos)
     {
         float distanceUseble;
@@ -511,7 +375,7 @@ public class CreateMap : MonoBehaviour
                 distanceUseble = Vector3.Distance(pos, hit.point);
                 if (distanceUseble <= g.transform.localScale.x)
                 {
-                    Debug.Log(false);
+
                     return false;
 
                 }
@@ -531,7 +395,7 @@ public class CreateMap : MonoBehaviour
                 distanceUseble = Vector3.Distance(pos, hit.point);
                 if (distanceUseble <= g.transform.localScale.x)
                 {
-                    Debug.Log(false);
+
                     return false;
 
                 }
@@ -551,7 +415,7 @@ public class CreateMap : MonoBehaviour
                 distanceUseble = Vector3.Distance(pos, hit.point);
                 if (distanceUseble <= g.transform.localScale.x)
                 {
-                    Debug.Log(false);
+
                     return false;
 
                 }
@@ -570,7 +434,7 @@ public class CreateMap : MonoBehaviour
                 distanceUseble = Vector3.Distance(pos, hit.point);
                 if (distanceUseble <= g.transform.localScale.x)
                 {
-                    Debug.Log(false);
+
                     return false;
 
                 }
@@ -585,5 +449,73 @@ public class CreateMap : MonoBehaviour
         return false;
 
     }
+    //Lay thong tin tu inspector
+    public void GetInformationFromInspector()
+    {
+        numberOfCar = idCar.Length;
 
+        for (int i = 0; i < idCar.Length; i++)
+        {
+            if (idCar[i] == 0)
+            {
+                numberCartype1++;
+            }
+        }
+        for (int i = 0; i < idCar.Length; i++)
+        {
+            if (idCar[i] == 1)
+            {
+                numberCartype2++;
+            }
+        }
+
+    }
+    //Reset toan bo map
+    public void ResetRandomGame()
+    {
+        if (FloorGen.Count == 0)
+        {
+            StartGenMap();
+        }
+        else
+        {
+            StartCoroutine(delay());
+        }
+
+    }
+    IEnumerator delay()
+    {
+
+        for (int i = 0; i < carIsOnMap.Count; i++)
+        {
+            Destroy(carIsOnMap[i]);
+        }
+        carIsOnMap.Clear();
+
+        positionIntialCar.Clear();
+
+        yield return new WaitForSeconds(1f);
+        RandomIntialPosition();
+
+        CreateCar();
+
+    }
+    public void GenCarOnMap()
+    {
+        k--;
+
+        for (int i = 0; i < carIsOnMap.Count; i++)
+        {
+            Destroy(carIsOnMap[i]);
+        }
+        carIsOnMap.Clear();
+
+        positionIntialCar.Clear();
+
+        GenBoder();
+        RandomIntialPosition();
+
+        CreateCar();
+
+    }
 }
