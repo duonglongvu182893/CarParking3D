@@ -7,9 +7,12 @@ using UnityEngine;
 public class TestMap : MonoBehaviour
 {
     public int sizeX = 2;
-    public int sizeZ = 2;
-    public int numberOfCar = 4;
 
+    public int sizeZ = 2;
+
+
+
+    public int numberOfCar = 4;
     public GameObject boder;
     public GameObject Car;
     public GameObject Floor;
@@ -20,13 +23,13 @@ public class TestMap : MonoBehaviour
 
     public List<Vector3> positionIntialCar = new List<Vector3>();
     public List<Vector3> positionInMap = new List<Vector3>();
-
-    //public List<Vector3> positionDelete = new List<Vector3>();
+  
 
     public List<GameObject> car = new List<GameObject>();
     public List<GameObject> carIsOnMap = new List<GameObject>();
     public List<GameObject> FloorGen = new List<GameObject>();
-    
+    public List<GameObject> boderGen = new List<GameObject>();
+
 
     public List<RoadOnMap> roadX = new List<RoadOnMap>();
     public List<RoadOnMap> roadZ = new List<RoadOnMap>();
@@ -45,14 +48,16 @@ public class TestMap : MonoBehaviour
 
     public static TestMap instance;
 
+  
+    
 
     // Start is called before the first frame update
     [System.Obsolete]
     void Start()
     {
-
-        StartGenMap();
         
+        StartGenMap();
+
     }
     public void StartGenMap()
     {
@@ -135,9 +140,21 @@ public class TestMap : MonoBehaviour
     [System.Obsolete]
     public void GenFloor()
     {
+        /*
         for (int i = -sizeX; i <= sizeX; i++)
         {
             for (int j = -sizeZ; j <= sizeZ; j++)
+            {
+                Vector3 pos = new Vector3(i, 0, j);
+                GameObject firtBlock = Instantiate(floor, pos, Quaternion.identity);
+                firtBlock.transform.parent = Floor.transform;
+                positionInMap.Add(new Vector3(i, 0f, j));
+                FloorGen.Add(firtBlock);
+            }
+        }*/
+        for (int i = 0; i <= sizeX - 1; i++) 
+        {
+            for (int j = 0; j <= sizeZ - 1; j++) 
             {
                 Vector3 pos = new Vector3(i, 0, j);
                 GameObject firtBlock = Instantiate(floor, pos, Quaternion.identity);
@@ -152,12 +169,40 @@ public class TestMap : MonoBehaviour
     [System.Obsolete]
     public void RandomIntialPosition()
     {
+        /*
         for (int i = -sizeX - 1; i <= sizeX + 1; i++)
         {
             for (int j = -sizeZ - 1; j <= sizeZ + 1; j++)
             {
 
                 if ((i != -sizeX - 1 || j != -sizeZ - 1) && (i != -sizeX - 1 || j != sizeZ + 1) && (i != sizeX + 1 || j != sizeZ + 1) && (i != sizeX + 1 || j != -sizeZ - 1))
+                {
+                    positionIntialCar.Add(new Vector3(i, 0, j));
+
+                }
+
+
+            }
+        }
+        for (int i = 0; i < positionIntialCar.Count; i++)
+        {
+            for (int j = 0; j < positionInMap.Count; j++)
+            {
+                if (positionInMap[j] == positionIntialCar[i])
+                {
+                    positionIntialCar.RemoveAt(i);
+                }
+
+
+            }
+        }*/
+
+        for (int i = - 1; i <= sizeX ; i++)
+        {
+            for (int j =- 1; j <= sizeZ ; j++)
+            {
+
+                if ((i !=  - 1 || j !=- 1) && (i != - 1 || j != sizeZ ) && (i != sizeX  || j != sizeZ) && (i != sizeX || j != - 1))
                 {
                     positionIntialCar.Add(new Vector3(i, 0, j));
 
@@ -190,10 +235,17 @@ public class TestMap : MonoBehaviour
         {
             GameObject newBoder = Instantiate(boder, positionIntialCar[i], Quaternion.identity);
             newBoder.transform.parent = Boder.transform;
-         
+
+            boderGen.Add(newBoder);
         }
     }
+
+
+    /*
     [System.Obsolete]
+
+
+
     public void GenCar(Vector3 pos, GameObject g)
     {
         
@@ -326,6 +378,142 @@ public class TestMap : MonoBehaviour
                 Debug.Log("khong trung");
             }
         }
+    }*/
+
+
+
+    public void GenCar(Vector3 pos, GameObject g)
+    {
+
+        RaycastHit hit;
+        if (pos.x == sizeX )
+        {
+            if (Physics.Raycast(pos, transform.TransformDirection(Vector3.left), out hit, Mathf.Infinity, layerMask))
+            {
+
+
+                float offSet = (g.transform.localScale.x) / 2;
+
+                GameObject carSpaw = Instantiate(g, new Vector3(hit.point.x + offSet, hit.point.y, hit.point.z), Quaternion.Euler(0, 180, 0));
+
+                carSpaw.GetComponent<Car>().SetRotation(Quaternion.Euler(0, 180, 0));
+                carSpaw.transform.parent = Car.transform;
+
+
+                Vector3 bound = carSpaw.GetComponent<Collider>().bounds.min;
+                if (carSpaw.GetComponent<Collider>().bounds.min.x > sizeX + 0.7f || carSpaw.GetComponent<Collider>().bounds.max.x > sizeX + 0.7f)
+                {
+
+                    //Destroy(carSpaw);
+
+                    carSpaw.active = false;
+
+
+                }
+                else
+                {
+
+                    carIsOnMap.Add(carSpaw);
+                }
+            }
+            else
+            {
+                Debug.Log("khong trung");
+            }
+        }
+
+        if (pos.x == - 1)
+        {
+            if (Physics.Raycast(pos, transform.TransformDirection(Vector3.right), out hit, Mathf.Infinity, layerMask))
+            {
+
+
+                float offSet = (g.transform.localScale.x) / 2;
+                GameObject carSpaw = Instantiate(g, new Vector3(hit.point.x - offSet, hit.point.y, hit.point.z), Quaternion.Euler(0, 0, 0));
+
+                carSpaw.GetComponent<Car>().SetRotation(Quaternion.Euler(0, 0, 0));
+                carSpaw.transform.parent = Car.transform;
+                Vector3 bound = carSpaw.GetComponent<Collider>().bounds.min;
+                if (carSpaw.GetComponent<Collider>().bounds.min.x < -sizeX - 0.7f || carSpaw.GetComponent<Collider>().bounds.max.x < -sizeX - 0.7f)
+                {
+                    //Destroy(carSpaw);
+
+                    carSpaw.active = false;
+
+                }
+                else
+                {
+                    carIsOnMap.Add(carSpaw);
+
+                }
+
+
+            }
+            else
+            {
+                Debug.Log("khong trung");
+            }
+        }
+
+        if (pos.z == sizeZ)
+        {
+            if (Physics.Raycast(pos, transform.TransformDirection(Vector3.back), out hit, Mathf.Infinity, layerMask))
+            {
+
+
+                float offSet = (g.transform.localScale.x) / 2;
+                GameObject carSpaw = Instantiate(g, new Vector3(hit.point.x, hit.point.y, hit.point.z + offSet), Quaternion.Euler(0, 90, 0));
+
+                carSpaw.GetComponent<Car>().SetRotation(Quaternion.Euler(0, 90, 0));
+                carSpaw.transform.parent = Car.transform;
+                if (carSpaw.GetComponent<Collider>().bounds.min.z > sizeZ + 0.7f || carSpaw.GetComponent<Collider>().bounds.max.z > sizeZ + 0.7f)
+                {
+                    // Destroy(carSpaw);
+
+                    carSpaw.active = false;
+
+                }
+                else
+                {
+                    carIsOnMap.Add(carSpaw);
+
+                }
+            }
+            else
+            {
+                Debug.Log("khong trung");
+            }
+        }
+        if (pos.z == - 1)
+        {
+            if (Physics.Raycast(pos, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
+            {
+
+
+                float offSet = (g.transform.localScale.x) / 2;
+                GameObject carSpaw = Instantiate(g, new Vector3(hit.point.x, hit.point.y, hit.point.z - offSet), Quaternion.Euler(0, -90, 0));
+
+                carSpaw.GetComponent<Car>().SetRotation(Quaternion.Euler(0, -90, 0));
+                carSpaw.transform.parent = Car.transform;
+
+                if (carSpaw.GetComponent<Collider>().bounds.min.z < -sizeZ - 0.7f || carSpaw.GetComponent<Collider>().bounds.max.z < -sizeZ - 0.7f)
+                {
+                    // Destroy(carSpaw);
+
+                    carSpaw.active = false;
+
+                }
+                else
+                {
+                    carIsOnMap.Add(carSpaw);
+
+                }
+            }
+            else
+            {
+                Debug.Log("khong trung");
+            }
+        }
     }
     [System.Obsolete]
     public GameObject PickCar(int id)
@@ -359,6 +547,11 @@ public class TestMap : MonoBehaviour
             Destroy(FloorGen[i]);
         }
         FloorGen.Clear();
+        for (int i = 0; i < boderGen.Count; i++)
+        {
+            Destroy(boderGen[i]);
+        }
+        boderGen.Clear();
 
         positionInMap.Clear();
         positionIntialCar.Clear();
@@ -388,7 +581,7 @@ public class TestMap : MonoBehaviour
            
         }
 
-        if (pos.x == -sizeX - 1)
+        if (pos.x == - 1)
         {
             if (Physics.Raycast(pos, transform.TransformDirection(Vector3.right), out hit, Mathf.Infinity, layerMask))
             {
@@ -427,7 +620,7 @@ public class TestMap : MonoBehaviour
             }
            
         }
-        if (pos.z == -sizeZ - 1)
+        if (pos.z == - 1)
         {
             if (Physics.Raycast(pos, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
             {
@@ -453,6 +646,7 @@ public class TestMap : MonoBehaviour
     //Lay thong tin tu inspector
     public void GetInformationFromInspector()
     {
+        
         numberOfCar = idCar.Length;
 
         for(int i = 0; i < idCar.Length; i++)
@@ -504,7 +698,6 @@ public class TestMap : MonoBehaviour
     public void GenCarOnMap()
     {
         k--;
-    
         for (int i = 0; i < carIsOnMap.Count; i++)
         {
             Destroy(carIsOnMap[i]);

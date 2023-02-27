@@ -5,6 +5,8 @@ using UnityEngine;
 public class CreateMap : MonoBehaviour
 {
 
+   
+
     public int sizeX = 2;
     public int sizeZ = 2;
     public int numberOfCar = 4;
@@ -51,11 +53,12 @@ public class CreateMap : MonoBehaviour
     {
 
         StartGenMap();
+        
 
     }
     public void StartGenMap()
     {
-        //GetInformationFromInspector();
+        GetInformationFromInspector();
         GenFloor();
         GenBoder();
         CreadRoad.instance.CreateRoad();
@@ -452,6 +455,8 @@ public class CreateMap : MonoBehaviour
     //Lay thong tin tu inspector
     public void GetInformationFromInspector()
     {
+
+        
         numberOfCar = idCar.Length;
 
         for (int i = 0; i < idCar.Length; i++)
