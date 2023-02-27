@@ -19,6 +19,8 @@ public class ControllAll : MonoBehaviour
     public GameObject saveDialog;
     public GameObject loadDialog;
 
+    public GameObject carObj;
+
 
 
     //public Level levelLoad = new Level();
@@ -106,11 +108,15 @@ public class ControllAll : MonoBehaviour
         for (int i = 0; i < scriptableObject.positionCarType1.Count; i++)
         {
             GameObject car = Instantiate(Car[1], scriptableObject.positionCarType1[i], scriptableObject.quaternionCarType1[i]);
+            TestMap.instance.carIsOnMap.Add(car);
+            car.transform.parent = carObj.transform;
 
         }
         for (int i = 0; i < scriptableObject.positionCarType2.Count; i++)
         {
             GameObject car = Instantiate(Car[0], scriptableObject.positionCarType2[i], scriptableObject.quaternionCarType2[i]);
+            TestMap.instance.carIsOnMap.Add(car);
+            car.transform.parent = carObj.transform;
 
         }
         loadDialog.SetActive(!loadDialog.active);
