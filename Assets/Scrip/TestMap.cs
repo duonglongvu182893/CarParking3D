@@ -13,6 +13,7 @@ public class TestMap : MonoBehaviour
 
 
     public int numberOfCar = 4;
+
     public GameObject boder;
     public GameObject Car;
     public GameObject Floor;
@@ -23,8 +24,7 @@ public class TestMap : MonoBehaviour
 
     public List<Vector3> positionIntialCar = new List<Vector3>();
     public List<Vector3> positionInMap = new List<Vector3>();
-  
-
+ 
     public List<GameObject> car = new List<GameObject>();
     public List<GameObject> carIsOnMap = new List<GameObject>();
     public List<GameObject> FloorGen = new List<GameObject>();
@@ -391,7 +391,6 @@ public class TestMap : MonoBehaviour
             if (Physics.Raycast(pos, transform.TransformDirection(Vector3.left), out hit, Mathf.Infinity, layerMask))
             {
 
-
                 float offSet = (g.transform.localScale.x) / 2;
 
                 GameObject carSpaw = Instantiate(g, new Vector3(hit.point.x + offSet, hit.point.y, hit.point.z), Quaternion.Euler(0, 180, 0));
@@ -409,7 +408,7 @@ public class TestMap : MonoBehaviour
 
                     carSpaw.active = false;
 
-
+                        
                 }
                 else
                 {
@@ -448,7 +447,6 @@ public class TestMap : MonoBehaviour
 
                 }
 
-
             }
             else
             {
@@ -456,7 +454,7 @@ public class TestMap : MonoBehaviour
             }
         }
 
-        if (pos.z == sizeZ)
+        if (pos.z == sizeZ )
         {
             if (Physics.Raycast(pos, transform.TransformDirection(Vector3.back), out hit, Mathf.Infinity, layerMask))
             {
@@ -553,7 +551,6 @@ public class TestMap : MonoBehaviour
             Destroy(boderGen[i]);
         }
         boderGen.Clear();
-
         positionInMap.Clear();
         positionIntialCar.Clear();
 
@@ -563,7 +560,7 @@ public class TestMap : MonoBehaviour
    { 
         float distanceUseble;
         RaycastHit hit;
-        if (pos.x == sizeX + 1)
+        if (pos.x == sizeX )
         {
             if (Physics.Raycast(pos, transform.TransformDirection(Vector3.left), out hit, Mathf.Infinity, layerMask))
             {
@@ -602,7 +599,7 @@ public class TestMap : MonoBehaviour
          
         }
 
-        if (pos.z == sizeZ + 1)
+        if (pos.z == sizeZ )
         {
             if (Physics.Raycast(pos, transform.TransformDirection(Vector3.back), out hit, Mathf.Infinity, layerMask))
             {
@@ -713,7 +710,5 @@ public class TestMap : MonoBehaviour
         CreateCar();
        
     }
-
-
 
 }
