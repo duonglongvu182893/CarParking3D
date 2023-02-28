@@ -124,19 +124,19 @@ public class TestMap : MonoBehaviour
         int inx = Random.RandomRange(0, positionIntialCar.Count);
 
         GameObject CloneCar = PickCar(id);
+
         if (positionIntialCar.Count > 0 )
         {
             
             if (CheckCanChoose(CloneCar, positionIntialCar[inx]))
             {
                 GenCar(positionIntialCar[inx], CloneCar);
-
             
             }
             else if (!CheckCanChoose(CloneCar, positionIntialCar[inx]))
             {
                
-               positionIntialCar.RemoveAt(inx);
+                positionIntialCar.RemoveAt(inx);
                 RunAgaint(id);
             }
         }
@@ -202,149 +202,10 @@ public class TestMap : MonoBehaviour
         }
     }
 
-    /*
-    [System.Obsolete]
-
-
-
-    public void GenCar(Vector3 pos, GameObject g)
-    {
-        
-        RaycastHit hit;
-        if (pos.x == sizeX + 1)
-        {
-            if (Physics.Raycast(pos, transform.TransformDirection(Vector3.left), out hit, Mathf.Infinity, layerMask))
-            {
-                
-            
-                float offSet = (g.transform.localScale.x) / 2;
-
-                GameObject carSpaw = Instantiate(g, new Vector3(hit.point.x + offSet, hit.point.y, hit.point.z), Quaternion.Euler(0, 180, 0));
-
-                carSpaw.GetComponent<Car>().SetRotation(Quaternion.Euler(0, 180, 0));
-                carSpaw.transform.parent = Car.transform; 
-
-                
-                Vector3 bound = carSpaw.GetComponent<Collider>().bounds.min;
-                if (carSpaw.GetComponent<Collider>().bounds.min.x > sizeX + 0.7f || carSpaw.GetComponent<Collider>().bounds.max.x > sizeX + 0.7f)
-                {
-
-                    //Destroy(carSpaw);
-                   
-                    carSpaw.active = false;
-                    
-
-                }
-                else
-                {
-
-                    carIsOnMap.Add(carSpaw);
-                }
-            }
-            else
-            {
-                Debug.Log("khong trung");
-            }
-        }
-        
-        if (pos.x == -sizeX - 1)
-        {
-            if (Physics.Raycast(pos, transform.TransformDirection(Vector3.right), out hit, Mathf.Infinity, layerMask))
-            {
-
-               
-                float offSet = (g.transform.localScale.x) / 2;
-                GameObject carSpaw = Instantiate(g, new Vector3(hit.point.x - offSet, hit.point.y, hit.point.z), Quaternion.Euler(0, 0, 0));
-
-                carSpaw.GetComponent<Car>().SetRotation(Quaternion.Euler(0, 0, 0));
-                carSpaw.transform.parent = Car.transform;
-                Vector3 bound = carSpaw.GetComponent<Collider>().bounds.min;
-                if (carSpaw.GetComponent<Collider>().bounds.min.x < -sizeX - 0.7f || carSpaw.GetComponent<Collider>().bounds.max.x < -sizeX - 0.7f)
-                {
-                    //Destroy(carSpaw);
-                    
-                    carSpaw.active = false;
-                    
-                }
-                else
-                {
-                    carIsOnMap.Add(carSpaw);
-
-                }
-
-
-            }
-            else
-            {
-                Debug.Log("khong trung");
-            }
-        }
-
-        if (pos.z == sizeZ + 1)
-        {
-            if (Physics.Raycast(pos, transform.TransformDirection(Vector3.back), out hit, Mathf.Infinity, layerMask))
-            {
-
-               
-                float offSet = (g.transform.localScale.x) / 2;
-                GameObject carSpaw = Instantiate(g, new Vector3(hit.point.x, hit.point.y, hit.point.z + offSet), Quaternion.Euler(0, 90, 0));
-
-                carSpaw.GetComponent<Car>().SetRotation(Quaternion.Euler(0, 90, 0));
-                carSpaw.transform.parent = Car.transform;
-                if (carSpaw.GetComponent<Collider>().bounds.min.z > sizeZ + 0.7f || carSpaw.GetComponent<Collider>().bounds.max.z > sizeZ + 0.7f)
-                {
-                    // Destroy(carSpaw);
-                    
-                    carSpaw.active = false;
-                    
-                }
-                else
-                {
-                    carIsOnMap.Add(carSpaw);
-
-                }
-            }
-            else
-            {
-                Debug.Log("khong trung");
-            }
-        }
-        if (pos.z == -sizeZ - 1)
-        {
-            if (Physics.Raycast(pos, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
-            {
-
-                
-                float offSet = (g.transform.localScale.x) / 2;
-                GameObject carSpaw = Instantiate(g, new Vector3(hit.point.x, hit.point.y, hit.point.z - offSet), Quaternion.Euler(0, -90, 0));
-
-                carSpaw.GetComponent<Car>().SetRotation(Quaternion.Euler(0, -90, 0));
-                carSpaw.transform.parent = Car.transform;
-
-                if (carSpaw.GetComponent<Collider>().bounds.min.z < -sizeZ - 0.7f || carSpaw.GetComponent<Collider>().bounds.max.z < -sizeZ - 0.7f)
-                {
-                    // Destroy(carSpaw);
-                    
-                    carSpaw.active = false;
-                    
-                }
-                else
-                {
-                    carIsOnMap.Add(carSpaw);
-
-                }
-            }
-            else
-            {
-                Debug.Log("khong trung");
-            }
-        }
-    }*/
 
     [System.Obsolete]
-    public void GenCar(Vector3 pos, GameObject g)
+    public void GenCar(Vector3 pos, GameObject  g)
     {
-
         RaycastHit hit;
         if (pos.x == sizeX )
         {
@@ -527,13 +388,14 @@ public class TestMap : MonoBehaviour
                 distanceUseble = Vector3.Distance(pos, hit.point);
                 if (distanceUseble <= g.transform.localScale.x)
                 {
-
+                   
                     return false;
 
                 }
                 else
                 {
-                    return true;
+                    
+                   return true;
                 }
             }
 
@@ -592,7 +454,7 @@ public class TestMap : MonoBehaviour
                 }
                 else
                 {
-                    return true;
+                   return true;
                 }
             }
 

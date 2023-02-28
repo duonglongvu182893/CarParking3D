@@ -286,9 +286,6 @@ public class CarMoverment : MonoBehaviour
                 Destroy(gameObject);
 
             }
-
-
-
         }
 
     }
