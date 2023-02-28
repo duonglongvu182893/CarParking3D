@@ -44,35 +44,7 @@ public class CreadRoad : MonoBehaviour
     }
     void GeneateGrid()
     {
-        /*
-        for (int i = -rows ; i <= rows ; i++)
-        {
-            for (int j = -coloums; j <= coloums ; j++)
-            {
-                positionMap.Add(new Vector3(i, 0, j));
-
-            }
-        }
-
-        for (int i = -rows - 1; i <= rows + 1; i++)
-        {
-            for (int j = -coloums - 1; j <= coloums + 1; j++)
-            {
-                if ((i != -rows - 1 || j != -coloums - 1) && (i != -rows - 1 || j != coloums + 1) && (i != rows + 1 || j != coloums + 1) && (i != rows + 1 || j != -coloums - 1))
-                {
-                   
-                    positionIntial.Add(new Vector3(i, 0, j));
-
-                }
-                else
-                {
-                    vectorPath.Add(new Vector3(i, 0, j));
-                    positionIntial.Add(new Vector3(i, 0, j));
-                }
-                
-
-            }
-        }*/
+        
         for (int i = -1; i <= rows -1 ; i++)
         {
             for (int j = -1; j <= coloums -1; j++)
@@ -128,21 +100,12 @@ public class CreadRoad : MonoBehaviour
             Road.Add(roadSpaw);
         }
     }
-    void CreateVector()
-    {
-        upVector.z = vectorPath[1].z;
-        rightVector.x = vectorPath[1].x;
-        downVector.z = vectorPath[2].z;
-        leftVector.x = vectorPath[2].x;
-
-
-    }
     public void CreateRoad()
     {
         rows = CreateMap.instance.sizeX + 1;
         coloums = CreateMap.instance.sizeZ + 1;
         GeneateGrid();
-        CreateVector();     
+        //CreateVector();     
 
     }
 
@@ -174,6 +137,6 @@ public class CreadRoad : MonoBehaviour
         rows = TestMap.instance.sizeX +1 ;
         coloums = TestMap.instance.sizeZ  +1;
         GeneateGrid();
-        CreateVector();
+       // CreateVector();
     }
 }

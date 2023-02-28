@@ -88,11 +88,9 @@ public class CarMoverment : MonoBehaviour
         {
             offset = 0f;
             MoveCar(positionHitInRoad);
-
-            if (Vector3.Distance(transform.position, positionHitInRoad) <= 0.05f)
+            if (Vector3.Distance(transform.position, positionHitInRoad) <= 0.002f)
             {
                 outRoad = true;
-
             }
         }
         else if (outRoad)
@@ -101,6 +99,7 @@ public class CarMoverment : MonoBehaviour
             isBlock = false;
             RotateCar();
             
+
         }
     }
 
@@ -202,22 +201,28 @@ public class CarMoverment : MonoBehaviour
 
     void DetectObjectInRoad()
     {
-
-        Vector3 direction = dir * transform.right;
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, (direction), out hit, 100f, layerBoder))
+        if (!outRoad)
         {
-            positionHitInRoad = hit.point;
+            Vector3 direction = dir * transform.right;
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, (direction), out hit, 100f, layerBoder))
+            {
+                positionHitInRoad = hit.point;
+            }
+            else
+            {
+                //Debug.Log("khong co");
+            }
         }
-        else
-        {
-            //Debug.Log("khong co");
-        }
+        
 
     }
 
+
+
     public void RotateCar()
     {
+
         //Car.transform.position = Vector3.MoveTowards(Car.transform.position,CreadRoad.instance.vectorPath[0], Time.deltaTime * 5f);
         //vi tri so voi diem tren cung ben trai
         float num1 = Vector3.Distance(transform.position, CreadRoad.instance.vectorPath[0]);
@@ -241,9 +246,6 @@ public class CarMoverment : MonoBehaviour
                 transform.position = Vector3.MoveTowards(transform.position, CreadRoad.instance.vectorPath[3], Time.deltaTime * 5f);
 
             }
-
-
-
 
         }
 
@@ -288,7 +290,6 @@ public class CarMoverment : MonoBehaviour
 
 
         }
-
 
     }
     public void SelectFromScreen()
