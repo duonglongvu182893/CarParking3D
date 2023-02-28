@@ -205,15 +205,12 @@ public class CreateMap : MonoBehaviour
             if (Physics.Raycast(pos, transform.TransformDirection(Vector3.left), out hit, Mathf.Infinity, layerMask))
             {
 
-
                 float offSet = (g.transform.localScale.x) / 2;
 
                 GameObject carSpaw = Instantiate(g, new Vector3(hit.point.x + offSet, hit.point.y, hit.point.z), Quaternion.Euler(0, 180, 0));
-
                 carSpaw.GetComponent<Car>().SetRotation(Quaternion.Euler(0, 180, 0));
+                //carSpaw.GetComponent<Car>().isStraight = true;
                 carSpaw.transform.parent = Car.transform;
-
-
                 Vector3 bound = carSpaw.GetComponent<Collider>().bounds.min;
                 if (carSpaw.GetComponent<Collider>().bounds.min.x > sizeX + 0.7f || carSpaw.GetComponent<Collider>().bounds.max.x > sizeX + 0.7f)
                 {
@@ -244,7 +241,6 @@ public class CreateMap : MonoBehaviour
 
                 float offSet = (g.transform.localScale.x) / 2;
                 GameObject carSpaw = Instantiate(g, new Vector3(hit.point.x - offSet, hit.point.y, hit.point.z), Quaternion.Euler(0, 0, 0));
-
                 carSpaw.GetComponent<Car>().SetRotation(Quaternion.Euler(0, 0, 0));
                 carSpaw.transform.parent = Car.transform;
                 Vector3 bound = carSpaw.GetComponent<Collider>().bounds.min;
@@ -277,7 +273,6 @@ public class CreateMap : MonoBehaviour
 
                 float offSet = (g.transform.localScale.x) / 2;
                 GameObject carSpaw = Instantiate(g, new Vector3(hit.point.x, hit.point.y, hit.point.z + offSet), Quaternion.Euler(0, 90, 0));
-
                 carSpaw.GetComponent<Car>().SetRotation(Quaternion.Euler(0, 90, 0));
                 carSpaw.transform.parent = Car.transform;
                 if (carSpaw.GetComponent<Collider>().bounds.min.z > sizeZ + 0.7f || carSpaw.GetComponent<Collider>().bounds.max.z > sizeZ + 0.7f)

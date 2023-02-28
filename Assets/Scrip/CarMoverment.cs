@@ -352,35 +352,42 @@ public class CarMoverment : MonoBehaviour
 
                     if (!stopTouch)
                     {
-
-                        if (Distance.x < -swipeRange)
+                        if (transform.GetComponent<Car>().isStraight)
                         {
-                            informationForScreen = Vector3.left;
-                            stopTouch = true;
+                            if (Distance.x < -swipeRange)
+                            {
+                                informationForScreen = Vector3.left;
+                                stopTouch = true;
 
-                        }
-                        if (Distance.x > swipeRange)
-                        {
+                            }
+                            if (Distance.x > swipeRange)
+                            {
 
-                            informationForScreen = Vector3.right;
-                            stopTouch = true;
-
-
-                        }
-                        if (Distance.y > swipeRange)
-                        {
-                            informationForScreen = Vector3.forward;
-                            stopTouch = true;
+                                informationForScreen = Vector3.right;
+                                stopTouch = true;
 
 
-                        }
-                        if (Distance.y < -swipeRange)
-                        {
-                            informationForScreen = Vector3.back;
-                            stopTouch = true;
-
+                            }
                         }
 
+                        if (!transform.GetComponent<Car>().isStraight)
+                        {
+                            if (Distance.y > swipeRange)
+                            {
+
+                                informationForScreen = Vector3.forward;
+                                stopTouch = true;
+
+                            }
+                            if (Distance.y < -swipeRange)
+                            {
+
+
+                                informationForScreen = Vector3.back;
+                                stopTouch = true;
+
+                            }
+                        }
                     }
 
 
@@ -395,10 +402,7 @@ public class CarMoverment : MonoBehaviour
 
                     if (Mathf.Abs(Distance.x) < tapRange && Mathf.Abs(Distance.y) < tapRange)
                     {
-                        left = false;
-                        right = false;
-                        up = false;
-                        down = false;
+                       
                         tap = true;
                         touch = true;
 

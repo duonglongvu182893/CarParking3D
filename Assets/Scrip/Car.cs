@@ -15,6 +15,8 @@ class Car : MonoBehaviour
 
     public bool isChoseCar = false;
 
+    public bool isStraight = false;
+
     public void SetRotation(Quaternion rotationQ)
     {
         
