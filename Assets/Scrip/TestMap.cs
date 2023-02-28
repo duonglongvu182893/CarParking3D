@@ -13,8 +13,8 @@ public class TestMap : MonoBehaviour
     public int k = 5;
     public int[] idCar;
     public Vector3[] block;
+    public List<GameObject> carIsOnMap = new List<GameObject>();
 
-    
 
     [HideInInspector]
     public int numberOfCar = 4;
@@ -32,6 +32,9 @@ public class TestMap : MonoBehaviour
     [HideInInspector]
     public GameObject blockOnMap;
 
+    public GameObject blockEditor;
+    public GameObject wallEditor;
+
     [HideInInspector]
     public LayerMask layerMask;
 
@@ -39,12 +42,15 @@ public class TestMap : MonoBehaviour
     public List<Vector3> positionIntialCar = new List<Vector3>();
     [HideInInspector]
     public List<Vector3> positionInMap = new List<Vector3>();
+    [HideInInspector]
+    public List<GameObject> positionBlock = new List<GameObject>();
+
 
 
     [HideInInspector]
     public List<GameObject> car = new List<GameObject>();
-    [HideInInspector]
-    public List<GameObject> carIsOnMap = new List<GameObject>();
+    
+    
     [HideInInspector]
     public List<GameObject> FloorGen = new List<GameObject>();
     [HideInInspector]
@@ -56,20 +62,17 @@ public class TestMap : MonoBehaviour
     [HideInInspector]
     public int numberCartype2;
 
-    
-
-    
-
-
-    // Start is called before the first frame update
+    private void Awake()
+    {
+        instance = this;
+    }
     [System.Obsolete]
     void Start()
     {
-        
+
         StartGenMap();
 
     }
-
     [System.Obsolete]
     public void StartGenMap()
     {
@@ -77,6 +80,7 @@ public class TestMap : MonoBehaviour
         GenFloor();
         GenBoder();
         CreadRoad.instance.Test();
+        SelecPositionBlock();
         CreateCar();
         NumberOfCar();
         
@@ -99,11 +103,6 @@ public class TestMap : MonoBehaviour
 
         } 
 
-    }
-   
-    private void Awake()
-    {
-        instance = this;
     }
     [System.Obsolete]
     public void CreateCar()
@@ -146,18 +145,6 @@ public class TestMap : MonoBehaviour
     [System.Obsolete]
     public void GenFloor()
     {
-        /*
-        for (int i = -sizeX; i <= sizeX; i++)
-        {
-            for (int j = -sizeZ; j <= sizeZ; j++)
-            {
-                Vector3 pos = new Vector3(i, 0, j);
-                GameObject firtBlock = Instantiate(floor, pos, Quaternion.identity);
-                firtBlock.transform.parent = Floor.transform;
-                positionInMap.Add(new Vector3(i, 0f, j));
-                FloorGen.Add(firtBlock);
-            }
-        }*/
         for (int i = 0; i <= sizeX - 1; i++) 
         {
             for (int j = 0; j <= sizeZ - 1; j++) 
@@ -175,34 +162,7 @@ public class TestMap : MonoBehaviour
     [System.Obsolete]
     public void RandomIntialPosition()
     {
-        /*
-        for (int i = -sizeX - 1; i <= sizeX + 1; i++)
-        {
-            for (int j = -sizeZ - 1; j <= sizeZ + 1; j++)
-            {
-
-                if ((i != -sizeX - 1 || j != -sizeZ - 1) && (i != -sizeX - 1 || j != sizeZ + 1) && (i != sizeX + 1 || j != sizeZ + 1) && (i != sizeX + 1 || j != -sizeZ - 1))
-                {
-                    positionIntialCar.Add(new Vector3(i, 0, j));
-
-                }
-
-
-            }
-        }
-        for (int i = 0; i < positionIntialCar.Count; i++)
-        {
-            for (int j = 0; j < positionInMap.Count; j++)
-            {
-                if (positionInMap[j] == positionIntialCar[i])
-                {
-                    positionIntialCar.RemoveAt(i);
-                }
-
-
-            }
-        }*/
-
+        
         for (int i = - 1; i <= sizeX ; i++)
         {
             for (int j =- 1; j <= sizeZ ; j++)
@@ -230,10 +190,6 @@ public class TestMap : MonoBehaviour
             }
         }
 
-
-        //ControllRoad();
-
-
     }
     public void GenBoder()
     {
@@ -245,7 +201,6 @@ public class TestMap : MonoBehaviour
             boderGen.Add(newBoder);
         }
     }
-
 
     /*
     [System.Obsolete]
@@ -385,8 +340,6 @@ public class TestMap : MonoBehaviour
             }
         }
     }*/
-
-
 
     [System.Obsolete]
     public void GenCar(Vector3 pos, GameObject g)
@@ -670,7 +623,6 @@ public class TestMap : MonoBehaviour
         }
 
     }
-
     //Reset toan bo map
     [System.Obsolete]
     public void ResetRandomGame()
@@ -685,7 +637,6 @@ public class TestMap : MonoBehaviour
         }
 
     }
-
     [System.Obsolete]
     IEnumerator delay()
     {
@@ -704,7 +655,6 @@ public class TestMap : MonoBehaviour
         CreateCar();
 
     }
-
     [System.Obsolete]
     public void GenCarOnMap()
     {
@@ -716,12 +666,24 @@ public class TestMap : MonoBehaviour
         carIsOnMap.Clear();
   
         positionIntialCar.Clear();
-
         GenBoder();
         RandomIntialPosition();
-
         CreateCar();
        
+    }
+    public void SelecPositionBlock()
+    {
+        for(int i = 0; i < block.Length; i++)
+        {
+            for(int j = 0; j < positionInMap.Count;j++)
+            {
+                if(block[i] == positionInMap[j])
+                {
+                    GameObject blockClone = Instantiate(blockOnMap, block[i], Quaternion.identity);
+                    positionBlock.Add(blockClone);
+                }
+            }
+        }
     }
 
 }

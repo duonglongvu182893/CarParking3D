@@ -122,7 +122,7 @@ MonoBehaviour:
   hitObj: {fileID: 0}
   layerMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 1152
   layerBoder:
     serializedVersion: 2
     m_Bits: 512
@@ -161,6 +161,7 @@ MonoBehaviour:
   id: 0
   rotation: {x: 0, y: 0, z: 0, w: 0}
   isChoseCar: 0
+  isStraight: 0
 --- !u!1 &6920297651957059833
 GameObject:
   m_ObjectHideFlags: 0

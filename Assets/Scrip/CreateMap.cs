@@ -388,7 +388,6 @@ public class CreateMap : MonoBehaviour
                     return true;
                 }
             }
-
         }
 
         if (pos.x == -sizeX - 1)

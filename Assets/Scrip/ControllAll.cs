@@ -16,6 +16,7 @@ public class ControllAll : MonoBehaviour
 
 
     public List<GameObject> Car;
+    public GameObject block;
     public GameObject saveDialog;
     public GameObject loadDialog;
 
@@ -78,6 +79,11 @@ public class ControllAll : MonoBehaviour
                 scriptableObject.quaternionCarType2.Add(TestMap.instance.carIsOnMap[i].GetComponent<Car>().GetRotation());
             }
         }
+        scriptableObject.positionBlock = new List<Vector3>();
+        for(int i =0; i < TestMap.instance.positionBlock.Count; i++)
+        {
+            scriptableObject.positionBlock.Add(TestMap.instance.positionBlock[i].transform.position);
+        }
         EditorUtility.SetDirty(scriptableObject);
         JsonUtility.ToJson(scriptableObject);
         AssetDatabase.SaveAssets();
@@ -122,6 +128,11 @@ public class ControllAll : MonoBehaviour
             TestMap.instance.carIsOnMap.Add(car);
             car.transform.parent = carObj.transform;
 
+        }
+        for(int i = 0; i < scriptableObject.positionBlock.Count; i++)
+        {
+            GameObject blockClone = Instantiate(block, scriptableObject.positionBlock[i], Quaternion.identity);
+            TestMap.instance.transform.parent = TestMap.instance.blockEditor.transform;
         }
         loadDialog.SetActive(!loadDialog.active);
     }
