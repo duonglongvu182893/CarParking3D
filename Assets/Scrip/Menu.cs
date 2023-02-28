@@ -23,7 +23,8 @@ public class Menu : MonoBehaviour
 
 
     // Start is called before the first frame update
-   
+
+    [System.Obsolete]
     void Update()
     {
         ShowInformation();
@@ -36,6 +37,8 @@ public class Menu : MonoBehaviour
 
         positionOldCam = Camera.transform.position;
     }
+
+    [System.Obsolete]
     public void CheckWin()
     {
         if(CreateMap.instance.carIsOnMap.Count == 0)
@@ -45,6 +48,7 @@ public class Menu : MonoBehaviour
     }
 
     //[System.Obsolete]
+    [System.Obsolete]
     public void BeginGame()
     {
         
@@ -58,12 +62,16 @@ public class Menu : MonoBehaviour
         setMenu.SetActive(false);
 
     }
+
+    [System.Obsolete]
     public void ShowInformation()
     {
         string number = CreateMap.instance.carIsOnMap.Count.ToString();
         numberOfCar.SetText(number);
         Screen.SetActive(!setMenu.active);
     }
+
+    [System.Obsolete]
     public void ResetMap()
     {
         CreateMap.instance.ResetMap();

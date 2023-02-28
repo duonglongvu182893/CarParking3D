@@ -37,15 +37,19 @@ public class ControllAll : MonoBehaviour
 
     }
 
+    [System.Obsolete]
     public void SaveDialog()
     {
         saveDialog.SetActive(!saveDialog.active);
     }
+
+    [System.Obsolete]
     public void LoadDialog()
     {
         loadDialog.SetActive(!loadDialog.active);
     }
 
+    [System.Obsolete]
     public void SaveDataToSO()
 
     {
@@ -81,7 +85,7 @@ public class ControllAll : MonoBehaviour
         saveDialog.SetActive(!saveDialog.active);
     }
 
-
+    [System.Obsolete]
     public void ReadDataFromSO()
     {
 

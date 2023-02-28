@@ -56,6 +56,8 @@ public class CreateMap : MonoBehaviour
         
 
     }
+
+    [System.Obsolete]
     public void StartGenMap()
     {
         GetInformationFromInspector();
@@ -87,6 +89,8 @@ public class CreateMap : MonoBehaviour
         }
 
     }
+
+    [System.Obsolete]
     private void Update()
     {
         if (isRunReset)
@@ -111,6 +115,8 @@ public class CreateMap : MonoBehaviour
 
         }
     }
+
+    [System.Obsolete]
     public void RunAgaint(int id)
     {
         int inx = Random.RandomRange(0, positionIntialCar.Count);
@@ -470,7 +476,9 @@ public class CreateMap : MonoBehaviour
         }
 
     }
+
     //Reset toan bo map
+    [System.Obsolete]
     public void ResetRandomGame()
     {
         if (FloorGen.Count == 0)
@@ -483,6 +491,8 @@ public class CreateMap : MonoBehaviour
         }
 
     }
+
+    [System.Obsolete]
     IEnumerator delay()
     {
 
@@ -500,6 +510,8 @@ public class CreateMap : MonoBehaviour
         CreateCar();
 
     }
+
+    [System.Obsolete]
     public void GenCarOnMap()
     {
         k--;
@@ -514,7 +526,6 @@ public class CreateMap : MonoBehaviour
 
         GenBoder();
         RandomIntialPosition();
-
         CreateCar();
 
     }

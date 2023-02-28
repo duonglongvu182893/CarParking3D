@@ -605,12 +605,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sizeX: 9
   sizeZ: 9
+  k: 200
+  idCar: 0100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000000000000100000000000000010000000000000001000000000000000100000000000000
+  block: []
   numberOfCar: 2
   boder: {fileID: 1451430448166645960, guid: e8870b87d25d84c059a38c4a4858a031, type: 3}
   Car: {fileID: 1185469617}
   Floor: {fileID: 1635102174}
   Boder: {fileID: 588980327}
   floor: {fileID: 76721986502384535, guid: 7f750368cb8c440a990aa9d353931c89, type: 3}
+  blockOnMap: {fileID: 9174573268536332689, guid: d15b658ad76c645508c3f259bc89924d, type: 3}
   layerMask:
     serializedVersion: 2
     m_Bits: 192
@@ -622,13 +626,8 @@ MonoBehaviour:
   carIsOnMap: []
   FloorGen: []
   boderGen: []
-  idCar: 0100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000000000000100000000000000010000000000000001000000000000000100000000000000
   numberCartype1: 0
   numberCartype2: 0
-  posIsUse: {x: 0, y: 0, z: 0}
-  posIsUse2: {x: 0, y: 0, z: 0}
-  isRunReset: 0
-  k: 200
 --- !u!4 &20617878
 Transform:
   m_ObjectHideFlags: 0
@@ -3571,7 +3570,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1178552403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3673,7 +3672,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1227923895
 Transform:
   m_ObjectHideFlags: 0

@@ -42,6 +42,7 @@ public class ToolCreateMap : MonoBehaviour
     [HideInInspector]
     public GameObject boderEditor;
 
+    [System.Obsolete]
     private void Start()
     {
         GenFloor(offset);
@@ -118,6 +119,7 @@ public class ToolCreateMap : MonoBehaviour
         
     }
 
+    [System.Obsolete]
     public void SpawCarInMap()
     {
         for(int i = 0; i < idCar.Length; i++)

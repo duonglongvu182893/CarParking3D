@@ -6,50 +6,60 @@ using UnityEngine;
 
 public class TestMap : MonoBehaviour
 {
+
+    public static TestMap instance;
     public int sizeX = 2;
-
     public int sizeZ = 2;
+    public int k = 5;
+    public int[] idCar;
+    public Vector3[] block;
 
+    
 
-
+    [HideInInspector]
     public int numberOfCar = 4;
 
+    [HideInInspector]
     public GameObject boder;
+    [HideInInspector]
     public GameObject Car;
+    [HideInInspector]
     public GameObject Floor;
+    [HideInInspector]
     public GameObject Boder;
+    [HideInInspector]
     public GameObject floor;
+    [HideInInspector]
+    public GameObject blockOnMap;
 
+    [HideInInspector]
     public LayerMask layerMask;
 
+    [HideInInspector]
     public List<Vector3> positionIntialCar = new List<Vector3>();
+    [HideInInspector]
     public List<Vector3> positionInMap = new List<Vector3>();
- 
+
+
+    [HideInInspector]
     public List<GameObject> car = new List<GameObject>();
+    [HideInInspector]
     public List<GameObject> carIsOnMap = new List<GameObject>();
+    [HideInInspector]
     public List<GameObject> FloorGen = new List<GameObject>();
+    [HideInInspector]
     public List<GameObject> boderGen = new List<GameObject>();
 
 
-    public List<RoadOnMap> roadX = new List<RoadOnMap>();
-    public List<RoadOnMap> roadZ = new List<RoadOnMap>();
-
-    public int[] idCar;
-
+    [HideInInspector]
     public int numberCartype1;
+    [HideInInspector]
     public int numberCartype2;
 
-    public Vector3 posIsUse;
-    public Vector3 posIsUse2;
-
-    public bool isRunReset = false;
-
-    public int k = 5;
-
-    public static TestMap instance;
-
-  
     
+
+    
+
 
     // Start is called before the first frame update
     [System.Obsolete]
@@ -59,6 +69,8 @@ public class TestMap : MonoBehaviour
         StartGenMap();
 
     }
+
+    [System.Obsolete]
     public void StartGenMap()
     {
         GetInformationFromInspector();
@@ -83,20 +95,12 @@ public class TestMap : MonoBehaviour
                     Debug.Log("khong the gen");
                 }
                 Debug.Log(carIsOnMap.Count);
-
-
             }
 
         } 
 
     }
-    private void Update()
-    {
-        if (isRunReset)
-        {
-            GenCarOnMap();
-        }
-    }
+   
     private void Awake()
     {
         instance = this;
@@ -113,7 +117,9 @@ public class TestMap : MonoBehaviour
             }
            
         }
-    } 
+    }
+
+    [System.Obsolete]
     public void RunAgaint(int id)
     {
         int inx = Random.RandomRange(0, positionIntialCar.Count);
@@ -382,6 +388,7 @@ public class TestMap : MonoBehaviour
 
 
 
+    [System.Obsolete]
     public void GenCar(Vector3 pos, GameObject g)
     {
 
@@ -556,30 +563,30 @@ public class TestMap : MonoBehaviour
 
     }
     //Check vi tri cua xe co duoc phep dat vao khong
-    public bool CheckCanChoose(GameObject g , Vector3 pos)
-   { 
+    public bool CheckCanChoose(GameObject g, Vector3 pos)
+    {
         float distanceUseble;
         RaycastHit hit;
-        if (pos.x == sizeX )
+        if (pos.x == sizeX)
         {
             if (Physics.Raycast(pos, transform.TransformDirection(Vector3.left), out hit, Mathf.Infinity, layerMask))
             {
                 distanceUseble = Vector3.Distance(pos, hit.point);
                 if (distanceUseble <= g.transform.localScale.x)
                 {
-                   
+
                     return false;
-                    
+
                 }
                 else
                 {
                     return true;
                 }
             }
-           
+
         }
 
-        if (pos.x == - 1)
+        if (pos.x == -1)
         {
             if (Physics.Raycast(pos, transform.TransformDirection(Vector3.right), out hit, Mathf.Infinity, layerMask))
             {
@@ -587,7 +594,7 @@ public class TestMap : MonoBehaviour
                 distanceUseble = Vector3.Distance(pos, hit.point);
                 if (distanceUseble <= g.transform.localScale.x)
                 {
-                    
+
                     return false;
 
                 }
@@ -596,10 +603,10 @@ public class TestMap : MonoBehaviour
                     return true;
                 }
             }
-         
+
         }
 
-        if (pos.z == sizeZ )
+        if (pos.z == sizeZ)
         {
             if (Physics.Raycast(pos, transform.TransformDirection(Vector3.back), out hit, Mathf.Infinity, layerMask))
             {
@@ -607,7 +614,7 @@ public class TestMap : MonoBehaviour
                 distanceUseble = Vector3.Distance(pos, hit.point);
                 if (distanceUseble <= g.transform.localScale.x)
                 {
-                    
+
                     return false;
 
                 }
@@ -616,9 +623,9 @@ public class TestMap : MonoBehaviour
                     return true;
                 }
             }
-           
+
         }
-        if (pos.z == - 1)
+        if (pos.z == -1)
         {
             if (Physics.Raycast(pos, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
             {
@@ -626,7 +633,7 @@ public class TestMap : MonoBehaviour
                 distanceUseble = Vector3.Distance(pos, hit.point);
                 if (distanceUseble <= g.transform.localScale.x)
                 {
-                    
+
                     return false;
 
                 }
@@ -635,7 +642,7 @@ public class TestMap : MonoBehaviour
                     return true;
                 }
             }
-         
+
         }
 
         return false;
@@ -663,7 +670,9 @@ public class TestMap : MonoBehaviour
         }
 
     }
+
     //Reset toan bo map
+    [System.Obsolete]
     public void ResetRandomGame()
     {
         if(FloorGen.Count == 0)
@@ -676,6 +685,8 @@ public class TestMap : MonoBehaviour
         }
 
     }
+
+    [System.Obsolete]
     IEnumerator delay()
     {
         
@@ -693,6 +704,8 @@ public class TestMap : MonoBehaviour
         CreateCar();
 
     }
+
+    [System.Obsolete]
     public void GenCarOnMap()
     {
         k--;
