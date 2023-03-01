@@ -624,7 +624,7 @@ MonoBehaviour:
   Floor: {fileID: 1635102174}
   Boder: {fileID: 588980327}
   floor: {fileID: 277415335458054760, guid: 5167620b869434781bd7c1720dea4d4a, type: 3}
-  blockOnMap: {fileID: 9174573268536332689, guid: d15b658ad76c645508c3f259bc89924d, type: 3}
+  blockOnMap: {fileID: 6663060245163790948, guid: 603cf290a308a49cebd96dc2addd2d58, type: 3}
   blockEditor: {fileID: 45980794}
   wallEditor: {fileID: 2010743448}
   layerMask:
