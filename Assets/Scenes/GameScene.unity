@@ -634,8 +634,8 @@ MonoBehaviour:
   positionInMap: []
   positionBlock: []
   car:
-  - {fileID: 5713494955121217906, guid: cb66b0ea7ed124a75b2dc63c7b1b382a, type: 3}
-  - {fileID: 2928205029143013891, guid: 1e658ec806cc84c54bbda8d3c20ce533, type: 3}
+  - {fileID: 5360204839030230156, guid: 35d172085ac74407b8374c887de0fdd0, type: 3}
+  - {fileID: 6844774230765454496, guid: 52306e2ecbe634340b47f4c07fd8b8bd, type: 3}
   FloorGen: []
   boderGen: []
   wallGen: []
@@ -3751,10 +3751,10 @@ MonoBehaviour:
   nameSave: {fileID: 7502178}
   nameLoad: {fileID: 1338198738}
   Car:
-  - {fileID: 5713494955121217906, guid: cb66b0ea7ed124a75b2dc63c7b1b382a, type: 3}
-  - {fileID: 2928205029143013891, guid: 1e658ec806cc84c54bbda8d3c20ce533, type: 3}
-  block: {fileID: 9174573268536332689, guid: d15b658ad76c645508c3f259bc89924d, type: 3}
-  wall: {fileID: 842807308857726007, guid: a7977fa7e24364eb695c6963a79dd541, type: 3}
+  - {fileID: 5360204839030230156, guid: 35d172085ac74407b8374c887de0fdd0, type: 3}
+  - {fileID: 6844774230765454496, guid: 52306e2ecbe634340b47f4c07fd8b8bd, type: 3}
+  block: {fileID: 6663060245163790948, guid: 603cf290a308a49cebd96dc2addd2d58, type: 3}
+  wall: {fileID: 1886799961703579077, guid: b7865388162c648fcb0a5a345a7dcd8b, type: 3}
   saveDialog: {fileID: 375181983}
   loadDialog: {fileID: 121953604}
   carObj: {fileID: 1185469617}
