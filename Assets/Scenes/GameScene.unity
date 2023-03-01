@@ -616,7 +616,7 @@ MonoBehaviour:
   - {x: 2, y: 0, z: -1}
   - {x: 1, y: 0, z: -1}
   carIsOnMap: []
-  wallObj: {fileID: 842807308857726007, guid: a7977fa7e24364eb695c6963a79dd541, type: 3}
+  wallObj: {fileID: 1886799961703579077, guid: b7865388162c648fcb0a5a345a7dcd8b, type: 3}
   k: 2000
   numberOfCar: 2
   boder: {fileID: 1451430448166645960, guid: e8870b87d25d84c059a38c4a4858a031, type: 3}

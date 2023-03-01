@@ -19,7 +19,7 @@ public class TestMap : MonoBehaviour
     public List<GameObject> carIsOnMap = new List<GameObject>();
 
 
-    [HideInInspector]
+   
     public GameObject wallObj;
 
 
@@ -33,7 +33,7 @@ public class TestMap : MonoBehaviour
     public GameObject Car;
     
     public GameObject Floor;
-    [HideInInspector]
+    
     public GameObject Boder;
     
     public GameObject floor;
@@ -41,7 +41,7 @@ public class TestMap : MonoBehaviour
     public GameObject blockOnMap;
     [HideInInspector]
     public GameObject blockEditor;
-    [HideInInspector]
+  
     public GameObject wallEditor;
     [HideInInspector]
     public LayerMask layerMask;
