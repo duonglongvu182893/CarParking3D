@@ -51,7 +51,7 @@ public class TestMap : MonoBehaviour
     public List<Vector3> positionInMap = new List<Vector3>();
     [HideInInspector]
     public List<GameObject> positionBlock = new List<GameObject>();
-    [HideInInspector]
+    
     public List<GameObject> car = new List<GameObject>();
     [HideInInspector]
     public List<GameObject> FloorGen = new List<GameObject>();

@@ -54,6 +54,7 @@ public class CarMoverment : MonoBehaviour
     {
         dir = Left;
         DetectObjectInRoad();
+        /*
         if (TestMap.instance.sizeX > TestMap.instance.sizeZ)
         {
             offsetXY = TestMap.instance.sizeX - TestMap.instance.sizeZ;
@@ -68,7 +69,7 @@ public class CarMoverment : MonoBehaviour
         {
             offsetXY = 0;
             offsetYX = 0;
-        }
+        }*/
     }
     // Update is called once per frame
     void Update()
@@ -320,8 +321,6 @@ public class CarMoverment : MonoBehaviour
             }
         }
     }
-
-
     public void SwipScreen()
     {
         if (!outRoad)

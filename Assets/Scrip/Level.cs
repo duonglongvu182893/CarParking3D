@@ -20,6 +20,8 @@ public class Level : ScriptableObject
 
     public List<Vector3> positionCarType2;
     public List<Quaternion> quaternionCarType2;
+    public List<bool> isStraightType1;
+    public List<bool> isStraightType2;
 
     public List<Vector3> positionBlock;
     public List<Vector3> positionWall;

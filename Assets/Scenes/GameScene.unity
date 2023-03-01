@@ -604,14 +604,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sizeX: 8
-  sizeZ: 11
+  sizeZ: 8
   idCar: 00000000010000000100000000000000010000000000000001000000000000000100000000000000
   block: []
-  wall:
-  - {x: 4, y: 0, z: -1}
-  - {x: 5, y: 0, z: -1}
-  - {x: 6, y: 0, z: -1}
-  - {x: 7, y: 0, z: -1}
+  wall: []
   carIsOnMap: []
   wallObj: {fileID: 842807308857726007, guid: a7977fa7e24364eb695c6963a79dd541, type: 3}
   k: 2000

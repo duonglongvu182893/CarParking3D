@@ -65,18 +65,22 @@ public class ControllAll : MonoBehaviour
         scriptableObject.positionCarType2 = new List<Vector3>();
         scriptableObject.quaternionCarType1 = new List<Quaternion>();
         scriptableObject.quaternionCarType2 = new List<Quaternion>();
+        scriptableObject.isStraightType1 = new List<bool>();
+        scriptableObject.isStraightType2 = new List<bool>();
         for (int i = 0; i < TestMap.instance.carIsOnMap.Count; i++)
         {
             if (TestMap.instance.carIsOnMap[i].GetComponent<Car>().GetID() == 1)
             {
                 scriptableObject.positionCarType1.Add(TestMap.instance.carIsOnMap[i].transform.position);
                 scriptableObject.quaternionCarType1.Add(TestMap.instance.carIsOnMap[i].GetComponent<Car>().GetRotation());
+                scriptableObject.isStraightType1.Add(TestMap.instance.carIsOnMap[i].GetComponent<Car>().isStraight);
 
             }
             if (TestMap.instance.carIsOnMap[i].GetComponent<Car>().GetID() == 0)
             {
                 scriptableObject.positionCarType2.Add(TestMap.instance.carIsOnMap[i].transform.position);
                 scriptableObject.quaternionCarType2.Add(TestMap.instance.carIsOnMap[i].GetComponent<Car>().GetRotation());
+                scriptableObject.isStraightType2.Add(TestMap.instance.carIsOnMap[i].GetComponent<Car>().isStraight);
             }
         }
         scriptableObject.positionBlock = new List<Vector3>();
@@ -118,8 +122,11 @@ public class ControllAll : MonoBehaviour
         for (int i = 0; i < scriptableObject.positionCarType1.Count; i++)
         {
             GameObject car = Instantiate(Car[1], scriptableObject.positionCarType1[i], scriptableObject.quaternionCarType1[i]);
+            car.transform.GetComponent<Car>().isStraight = scriptableObject.isStraightType1[i];
+            //car.transform.GetComponent<Car>().rotation = scriptableObject.quaternionCarType1[i];
             TestMap.instance.carIsOnMap.Add(car);
             car.transform.parent = carObj.transform;
+           
 
         }
         for (int i = 0; i < scriptableObject.positionCarType2.Count; i++)
@@ -127,6 +134,7 @@ public class ControllAll : MonoBehaviour
             GameObject car = Instantiate(Car[0], scriptableObject.positionCarType2[i], scriptableObject.quaternionCarType2[i]);
             TestMap.instance.carIsOnMap.Add(car);
             car.transform.parent = carObj.transform;
+            car.transform.GetComponent<Car>().isStraight = scriptableObject.isStraightType2[i];
 
         }
         for(int i = 0; i < scriptableObject.positionBlock.Count; i++)
