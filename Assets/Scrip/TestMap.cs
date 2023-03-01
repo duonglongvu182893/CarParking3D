@@ -256,7 +256,6 @@ public class TestMap : MonoBehaviour
                 carSpaw.GetComponent<Car>().isStraight = true;
                 carSpaw.transform.parent = Car.transform;
 
-
                 Vector3 bound = carSpaw.GetComponent<Collider>().bounds.min;
                 if (carSpaw.GetComponent<Collider>().bounds.min.x > sizeX + 0.7f || carSpaw.GetComponent<Collider>().bounds.max.x > sizeX + 0.7f)
                 {
