@@ -121,7 +121,7 @@ MonoBehaviour:
   hitObj: {fileID: 0}
   layerMask:
     serializedVersion: 2
-    m_Bits: 1152
+    m_Bits: 3200
   layerBoder:
     serializedVersion: 2
     m_Bits: 512

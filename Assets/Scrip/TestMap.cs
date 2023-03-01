@@ -8,17 +8,22 @@ public class TestMap : MonoBehaviour
 {
 
     public static TestMap instance;
+
     public int sizeX = 2;
     public int sizeZ = 2;
-    public int k = 5;
+   
     public int[] idCar;
     public Vector3[] block;
+    public Vector3[] wall;
+
     public List<GameObject> carIsOnMap = new List<GameObject>();
+    public GameObject wallObj;
 
 
     [HideInInspector]
+    public int k = 5;
+    [HideInInspector]
     public int numberOfCar = 4;
-
     [HideInInspector]
     public GameObject boder;
     [HideInInspector]
@@ -31,32 +36,24 @@ public class TestMap : MonoBehaviour
     public GameObject floor;
     [HideInInspector]
     public GameObject blockOnMap;
-
-    public GameObject blockEditor;
-    public GameObject wallEditor;
-
     [HideInInspector]
+    public GameObject blockEditor;
+    [HideInInspector]
+    public GameObject wallEditor;
+    //[HideInInspector]
     public LayerMask layerMask;
-
     [HideInInspector]
     public List<Vector3> positionIntialCar = new List<Vector3>();
     [HideInInspector]
     public List<Vector3> positionInMap = new List<Vector3>();
     [HideInInspector]
     public List<GameObject> positionBlock = new List<GameObject>();
-
-
-
     [HideInInspector]
     public List<GameObject> car = new List<GameObject>();
-    
-    
     [HideInInspector]
     public List<GameObject> FloorGen = new List<GameObject>();
     [HideInInspector]
     public List<GameObject> boderGen = new List<GameObject>();
-
-
     [HideInInspector]
     public int numberCartype1;
     [HideInInspector]
@@ -79,6 +76,7 @@ public class TestMap : MonoBehaviour
         GetInformationFromInspector();
         GenFloor();
         GenBoder();
+        GenWall();
         CreadRoad.instance.Test();
         SelecPositionBlock();
         CreateCar();
@@ -100,13 +98,34 @@ public class TestMap : MonoBehaviour
                 }
                 Debug.Log(carIsOnMap.Count);
             }
-
         } 
+        GameObject CloneCar = PickCar(0);
+        Vector3 position = new Vector3(sizeX, 0, 4  );
+        if (CheckCanChoose(CloneCar, position))
+        {
+            GenCar(position, CloneCar);
+        }
+        position = new Vector3(sizeX, 0, 2);
+        if (CheckCanChoose(CloneCar, position))
+        {
+            GenCar(position, CloneCar);
+        }
+
+        CloneCar = PickCar(1);
+        position = new Vector3(sizeX, 0, 3);
+        if (CheckCanChoose(CloneCar, position))
+        {
+            GenCar(position, CloneCar);
+        }
+
+
+
 
     }
     [System.Obsolete]
     public void CreateCar()
     {
+        
         for (int i = 0; i < idCar.Length; i++)
         {
             if (positionIntialCar.Count > 0)
@@ -191,18 +210,51 @@ public class TestMap : MonoBehaviour
         }
 
     }
+    public void GenWall()
+    {
+        for (int i = 0; i < wall.Length; i++)
+        {
+            for (int j = 0; j < positionIntialCar.Count; j++)
+            {
+                if (wall[i] == positionIntialCar[j])
+                {
+                    if(wall[i].x == -1)
+                    {
+                        GameObject wallClone = Instantiate(wallObj, new Vector3(wall[i].x + (wallObj.transform.localScale.z / 2), wall[i].y, wall[i].z), Quaternion.identity);
+                        wallEditor.transform.parent = wallEditor.transform;
+                        wallClone.transform.rotation = Quaternion.LookRotation(new Vector3( 1, 0, 0));
+                    }
+                    if (wall[i].x == sizeX)
+                    {
+                        GameObject wallClone = Instantiate(wallObj, new Vector3(wall[i].x - (wallObj.transform.localScale.z / 2), wall[i].y, wall[i].z), Quaternion.identity);
+                        wallEditor.transform.parent = wallEditor.transform;
+                        wallClone.transform.rotation = Quaternion.LookRotation(new Vector3(1, 0, 0));
+                    }
+                    if (wall[i].z == -1)
+                    {
+                        GameObject wallClone = Instantiate(wallObj, new Vector3(wall[i].x , wall[i].y, wall[i].z + (wallObj.transform.localScale.z / 2)), Quaternion.identity);
+                        wallEditor.transform.parent = wallEditor.transform;
+                    }
+                    if (wall[i].x == sizeX)
+                    {
+                        GameObject wallClone = Instantiate(wallObj, new Vector3(wall[i].x, wall[i].y, wall[i].z - (wallObj.transform.localScale.z / 2)), Quaternion.identity);
+                        wallEditor.transform.parent = wallEditor.transform;
+                        
+                    }
+
+                }
+            }
+        }
+    }
     public void GenBoder()
     {
         for (int i = 0; i < positionIntialCar.Count; i++)
         {
             GameObject newBoder = Instantiate(boder, positionIntialCar[i], Quaternion.identity);
             newBoder.transform.parent = Boder.transform;
-
             boderGen.Add(newBoder);
         }
     }
-
-
     [System.Obsolete]
     public void GenCar(Vector3 pos, GameObject  g)
     {
@@ -224,12 +276,8 @@ public class TestMap : MonoBehaviour
                 Vector3 bound = carSpaw.GetComponent<Collider>().bounds.min;
                 if (carSpaw.GetComponent<Collider>().bounds.min.x > sizeX + 0.7f || carSpaw.GetComponent<Collider>().bounds.max.x > sizeX + 0.7f)
                 {
-
-                    //Destroy(carSpaw);
-
                     carSpaw.active = false;
-
-                        
+ 
                 }
                 else
                 {
@@ -388,14 +436,14 @@ public class TestMap : MonoBehaviour
                 distanceUseble = Vector3.Distance(pos, hit.point);
                 if (distanceUseble <= g.transform.localScale.x)
                 {
-                   
+
                     return false;
 
                 }
                 else
                 {
+                    return true;
                     
-                   return true;
                 }
             }
 
@@ -547,5 +595,4 @@ public class TestMap : MonoBehaviour
             }
         }
     }
-
 }
