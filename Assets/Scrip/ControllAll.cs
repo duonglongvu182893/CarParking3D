@@ -17,6 +17,7 @@ public class ControllAll : MonoBehaviour
 
     public List<GameObject> Car;
     public GameObject block;
+    public GameObject wall;
     public GameObject saveDialog;
     public GameObject loadDialog;
 
@@ -67,6 +68,9 @@ public class ControllAll : MonoBehaviour
         scriptableObject.quaternionCarType2 = new List<Quaternion>();
         scriptableObject.isStraightType1 = new List<bool>();
         scriptableObject.isStraightType2 = new List<bool>();
+        scriptableObject.positionWall = new List<Vector3>();
+        scriptableObject.wallRotation = new List<Quaternion>();
+        scriptableObject.isStraightType2 = new List<bool>();
         for (int i = 0; i < TestMap.instance.carIsOnMap.Count; i++)
         {
             if (TestMap.instance.carIsOnMap[i].GetComponent<Car>().GetID() == 1)
@@ -82,6 +86,13 @@ public class ControllAll : MonoBehaviour
                 scriptableObject.quaternionCarType2.Add(TestMap.instance.carIsOnMap[i].GetComponent<Car>().GetRotation());
                 scriptableObject.isStraightType2.Add(TestMap.instance.carIsOnMap[i].GetComponent<Car>().isStraight);
             }
+        }
+
+        for(int i = 0; i < TestMap.instance.wallGen.Count; i++)
+        {
+            scriptableObject.positionWall.Add(TestMap.instance.wallGen[i].transform.position);
+            scriptableObject.wallRotation.Add(TestMap.instance.wallGen[i].transform.rotation);
+        
         }
         scriptableObject.positionBlock = new List<Vector3>();
         for(int i =0; i < TestMap.instance.positionBlock.Count; i++)
@@ -141,6 +152,11 @@ public class ControllAll : MonoBehaviour
         {
             GameObject blockClone = Instantiate(block, scriptableObject.positionBlock[i], Quaternion.identity);
             TestMap.instance.transform.parent = TestMap.instance.blockEditor.transform;
+        }
+        for (int i = 0; i < scriptableObject.positionWall.Count; i++)
+        {
+            GameObject blockClone = Instantiate(wall, scriptableObject.positionWall[i], scriptableObject.wallRotation[i]);
+        
         }
         loadDialog.SetActive(!loadDialog.active);
     }

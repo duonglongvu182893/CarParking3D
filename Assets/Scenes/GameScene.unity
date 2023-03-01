@@ -603,11 +603,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 249f8800711ee434ab6521e1a8138e60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sizeX: 8
-  sizeZ: 12
-  idCar: 00000000010000000100000000000000010000000000000001000000000000000100000000000000
+  sizeX: 7
+  sizeZ: 3
+  idCar: 0100000000000000000000000100000001000000
   block: []
-  wall: []
+  wall:
+  - {x: 4, y: 0, z: 3}
+  - {x: 6, y: 0, z: 3}
+  - {x: 7, y: 0, z: 0}
+  - {x: 7, y: 0, z: 2}
   carIsOnMap: []
   wallObj: {fileID: 842807308857726007, guid: a7977fa7e24364eb695c6963a79dd541, type: 3}
   k: 2000
@@ -631,6 +635,7 @@ MonoBehaviour:
   - {fileID: 2928205029143013891, guid: 1e658ec806cc84c54bbda8d3c20ce533, type: 3}
   FloorGen: []
   boderGen: []
+  wallGen: []
   numberCartype1: 0
   numberCartype2: 0
 --- !u!4 &20617878
@@ -3745,7 +3750,8 @@ MonoBehaviour:
   Car:
   - {fileID: 5713494955121217906, guid: cb66b0ea7ed124a75b2dc63c7b1b382a, type: 3}
   - {fileID: 2928205029143013891, guid: 1e658ec806cc84c54bbda8d3c20ce533, type: 3}
-  block: {fileID: 0}
+  block: {fileID: 9174573268536332689, guid: d15b658ad76c645508c3f259bc89924d, type: 3}
+  wall: {fileID: 842807308857726007, guid: a7977fa7e24364eb695c6963a79dd541, type: 3}
   saveDialog: {fileID: 375181983}
   loadDialog: {fileID: 121953604}
   carObj: {fileID: 1185469617}

@@ -51,12 +51,14 @@ public class TestMap : MonoBehaviour
     public List<Vector3> positionInMap = new List<Vector3>();
     [HideInInspector]
     public List<GameObject> positionBlock = new List<GameObject>();
-    
+    [HideInInspector]
     public List<GameObject> car = new List<GameObject>();
     [HideInInspector]
     public List<GameObject> FloorGen = new List<GameObject>();
     [HideInInspector]
     public List<GameObject> boderGen = new List<GameObject>();
+    [HideInInspector]
+    public List<GameObject> wallGen = new List<GameObject>();
     [HideInInspector]
     public int numberCartype1;
     [HideInInspector]
@@ -204,26 +206,30 @@ public class TestMap : MonoBehaviour
                 {
                     if(wall[i].x == -1)
                     {
-                        GameObject wallClone = Instantiate(wallObj, new Vector3(wall[i].x + (wallObj.transform.localScale.z / 2), wall[i].y, wall[i].z), Quaternion.identity);
+                        GameObject wallClone = Instantiate(wallObj, new Vector3(wall[i].x + (wallObj.transform.localScale.z * 2), wall[i].y, wall[i].z), Quaternion.identity);
                         wallEditor.transform.parent = wallEditor.transform;
                         wallClone.transform.rotation = Quaternion.LookRotation(new Vector3( 1, 0, 0));
+                        wallGen.Add(wallClone);
                     }
                     if (wall[i].x == sizeX)
                     {
-                        GameObject wallClone = Instantiate(wallObj, new Vector3(wall[i].x - (wallObj.transform.localScale.z / 2), wall[i].y, wall[i].z), Quaternion.identity);
+                        GameObject wallClone = Instantiate(wallObj, new Vector3(wall[i].x - (wallObj.transform.localScale.z * 2), wall[i].y, wall[i].z), Quaternion.identity);
                         wallEditor.transform.parent = wallEditor.transform;
                         wallClone.transform.rotation = Quaternion.LookRotation(new Vector3(1, 0, 0));
+                        wallGen.Add(wallClone);
                     }
                     if (wall[i].z == -1)
                     {
-                        GameObject wallClone = Instantiate(wallObj, new Vector3(wall[i].x , wall[i].y, wall[i].z + (wallObj.transform.localScale.z / 2)), Quaternion.identity);
+                        GameObject wallClone = Instantiate(wallObj, new Vector3(wall[i].x, wall[i].y, wall[i].z + (wallObj.transform.localScale.z * 2)), Quaternion.identity);
                         wallEditor.transform.parent = wallEditor.transform;
+                        wallGen.Add(wallClone);
                     }
-                    if (wall[i].x == sizeX)
+                    if (wall[i].z == sizeZ)
                     {
-                        GameObject wallClone = Instantiate(wallObj, new Vector3(wall[i].x, wall[i].y, wall[i].z - (wallObj.transform.localScale.z / 2)), Quaternion.identity);
+                        GameObject wallClone = Instantiate(wallObj, new Vector3(wall[i].x, wall[i].y, wall[i].z - (wallObj.transform.localScale.z * 2)), Quaternion.identity);
                         wallEditor.transform.parent = wallEditor.transform;
-                        
+                        wallGen.Add(wallClone);
+
                     }
 
                 }
@@ -278,8 +284,6 @@ public class TestMap : MonoBehaviour
         {
             if (Physics.Raycast(pos, transform.TransformDirection(Vector3.right), out hit, Mathf.Infinity, layerMask))
             {
-
-
                 float offSet = (g.transform.localScale.x) / 2;
                 GameObject carSpaw = Instantiate(g, new Vector3(hit.point.x - offSet, hit.point.y, hit.point.z), Quaternion.Euler(0, 0, 0));
                 carSpaw.GetComponent<Car>().SetRotation(Quaternion.Euler(0, 0, 0));
@@ -310,7 +314,6 @@ public class TestMap : MonoBehaviour
         {
             if (Physics.Raycast(pos, transform.TransformDirection(Vector3.back), out hit, Mathf.Infinity, layerMask))
             {
-
 
                 float offSet = (g.transform.localScale.x) / 2;
                 GameObject carSpaw = Instantiate(g, new Vector3(hit.point.x, hit.point.y, hit.point.z + offSet), Quaternion.Euler(0, 90, 0));
@@ -405,6 +408,17 @@ public class TestMap : MonoBehaviour
         boderGen.Clear();
         positionInMap.Clear();
         positionIntialCar.Clear();
+        for (int i = 0; i < wallGen.Count; i++)
+        {
+            Destroy(wallGen[i]);
+        }
+        wallGen.Clear();
+
+        for (int i = 0; i < positionBlock.Count; i++)
+        {
+            Destroy(positionBlock[i]);
+        }
+        positionBlock.Clear();
 
     }
     //Check vi tri cua xe co duoc phep dat vao khong
@@ -539,12 +553,22 @@ public class TestMap : MonoBehaviour
             Destroy(carIsOnMap[i]);
         }
         carIsOnMap.Clear();
-
         positionIntialCar.Clear();
+        for(int i = 0; i < wallGen.Count; i++)
+        {
+            Destroy(wallGen[i]);
+        }
+        wallGen.Clear();
 
+        for(int i = 0; i < positionBlock.Count; i++)
+        {
+            Destroy(positionBlock[i]);
+        }
+        positionBlock.Clear();
         yield return new WaitForSeconds(1f);
         RandomIntialPosition();
-
+        GenWall();
+        SelecPositionBlock();
         CreateCar();
 
     }
@@ -557,7 +581,6 @@ public class TestMap : MonoBehaviour
             Destroy(carIsOnMap[i]);
         }
         carIsOnMap.Clear();
-  
         positionIntialCar.Clear();
         GenBoder();
         RandomIntialPosition();

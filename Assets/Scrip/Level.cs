@@ -25,6 +25,7 @@ public class Level : ScriptableObject
 
     public List<Vector3> positionBlock;
     public List<Vector3> positionWall;
+    public List<Quaternion> wallRotation;
 
 }
     
