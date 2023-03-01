@@ -36,6 +36,4 @@ class Car : MonoBehaviour
         return rotation;
     }
 
-
-
 }

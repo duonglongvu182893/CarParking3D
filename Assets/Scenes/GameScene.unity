@@ -604,7 +604,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sizeX: 8
-  sizeZ: 8
+  sizeZ: 11
   idCar: 00000000010000000100000000000000010000000000000001000000000000000100000000000000
   block: []
   wall:

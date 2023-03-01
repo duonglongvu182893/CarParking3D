@@ -7,7 +7,7 @@ public class CarMoverment : MonoBehaviour
 {
 
 
-
+    
     public bool Run;
     public bool isBlock;
     public bool isFree;
@@ -15,7 +15,12 @@ public class CarMoverment : MonoBehaviour
 
     public int dir;
 
+    public bool touchRoad;
+
     public float offset;
+
+    public float offsetXY;
+    public float offsetYX;
     public float stop;
     public GameObject hitObj;
 
@@ -29,16 +34,7 @@ public class CarMoverment : MonoBehaviour
 
     public static int Left = -1;
     public static int Right = 1;
-
-
-
-
-    public bool left = false;
-    public bool right = false;
-    public bool up = false;
-    public bool down = false;
     public bool tap = false;
-
 
     public Vector2 startPosition;
     public Vector2 currentPosition;
@@ -58,8 +54,21 @@ public class CarMoverment : MonoBehaviour
     {
         dir = Left;
         DetectObjectInRoad();
-
-
+        if (TestMap.instance.sizeX > TestMap.instance.sizeZ)
+        {
+            offsetXY = TestMap.instance.sizeX - TestMap.instance.sizeZ;
+            offsetYX = 0;
+        }
+        if (TestMap.instance.sizeX < TestMap.instance.sizeZ)
+        {
+            offsetXY = 0;
+            offsetYX = TestMap.instance.sizeZ - TestMap.instance.sizeX;
+        }
+        if (TestMap.instance.sizeX == TestMap.instance.sizeZ)
+        {
+            offsetXY = 0;
+            offsetYX = 0;
+        }
     }
     // Update is called once per frame
     void Update()
@@ -98,6 +107,7 @@ public class CarMoverment : MonoBehaviour
             Run = false;
             isBlock = false;
             RotateCar();
+            //CarFolowRoad();
             
 
         }
@@ -218,67 +228,70 @@ public class CarMoverment : MonoBehaviour
 
     }
 
-
-
     public void RotateCar()
     {
-
         //Car.transform.position = Vector3.MoveTowards(Car.transform.position,CreadRoad.instance.vectorPath[0], Time.deltaTime * 5f);
         //vi tri so voi diem tren cung ben trai
-        float num1 = Vector3.Distance(transform.position, CreadRoad.instance.vectorPath[0]);
+        float num0 = Vector3.Distance(transform.position, new Vector3(CreadRoad.instance.vectorPath[0].x - offsetYX, CreadRoad.instance.vectorPath[0].y, CreadRoad.instance.vectorPath[0].z - offsetXY));
         //vi tri so voi diem tren cung ben phai
-        float num2 = Vector3.Distance(transform.position, CreadRoad.instance.vectorPath[1]);
+        float num1 = Vector3.Distance(transform.position, new Vector3(CreadRoad.instance.vectorPath[1].x - offsetYX, CreadRoad.instance.vectorPath[1].y, CreadRoad.instance.vectorPath[1].z + offsetXY));
         //vi tri so voi diem duoi cung ben phai
-        float num3 = Vector3.Distance(transform.position, CreadRoad.instance.vectorPath[2]);
+        float num2 = Vector3.Distance(transform.position, new Vector3(CreadRoad.instance.vectorPath[2].x + offsetYX, CreadRoad.instance.vectorPath[2].y, CreadRoad.instance.vectorPath[2].z - offsetXY));
         //vi tri so voi diem duoi cung ben trai
-        float num4 = Vector3.Distance(transform.position, CreadRoad.instance.vectorPath[3]);
+        float num3 = Vector3.Distance(transform.position, new Vector3(CreadRoad.instance.vectorPath[3].x + offsetYX, CreadRoad.instance.vectorPath[3].y, CreadRoad.instance.vectorPath[3].z + offsetXY));
 
-
-        if ((num1 < num4 && num1 < num3) && (num2 < num4 && num2 < num3))
+        if ((num0 < num3 && num0 < num2) && (num1 < num3 && num1 < num2) )
         {
 
             transform.rotation = Quaternion.LookRotation(new Vector3(1f, 0, 0));
+           
             transform.position = Vector3.MoveTowards(transform.position, CreadRoad.instance.vectorPath[1], Time.deltaTime * 5f);
 
-            if (Vector3.Distance(transform.position, CreadRoad.instance.vectorPath[1]) < 0.03f)
+            if (Vector3.Distance(transform.position, CreadRoad.instance.vectorPath[1]) < 0.04f)
             {
                 transform.rotation = Quaternion.LookRotation(new Vector3(0f, 0, -1f));
+                transform.position = new Vector3(transform.position.x + 0.5f, transform.position.y, transform.position.z);
                 transform.position = Vector3.MoveTowards(transform.position, CreadRoad.instance.vectorPath[3], Time.deltaTime * 5f);
 
             }
 
         }
 
-        else if ((num2 < num1 && num2 < num3) && (num4 < num1 && num4 < num3))
+        else if ((num1 < num0 && num1 < num2) && (num3 < num0 && num3 < num2))
         {
             transform.rotation = Quaternion.LookRotation(new Vector3(0f, 0, -1f));
+          
             transform.position = Vector3.MoveTowards(transform.position, CreadRoad.instance.vectorPath[3], Time.deltaTime * 5f);
             if (Vector3.Distance(transform.position, CreadRoad.instance.vectorPath[3]) < 0.03f)
             {
                 transform.rotation = Quaternion.LookRotation(new Vector3(1f, 0, 0f));
+                transform.position = new Vector3(transform.position.x , transform.position.y, transform.position.z - 0.5f);
                 transform.position = Vector3.MoveTowards(transform.position, CreadRoad.instance.vectorPath[2], Time.deltaTime * 5f);
 
             }
 
 
         }
-        else if ((num3 < num1 && num3 < num2) && (num4 < num1 && num4 < num2))
+        else if ((num2 < num0 && num2 < num1) && (num3 < num0 && num3 < num1))
         {
             transform.rotation = Quaternion.LookRotation(new Vector3(-1f, 0, 0f));
+           
             transform.position = Vector3.MoveTowards(transform.position, CreadRoad.instance.vectorPath[2], Time.deltaTime * 5f);
             if (Vector3.Distance(transform.position, CreadRoad.instance.vectorPath[2]) < 0.03f)
             {
 
                 transform.rotation = Quaternion.LookRotation(new Vector3(0f, 0, 1f));
+                transform.position = new Vector3(transform.position.x-0.5f, transform.position.y, transform.position.z);
                 transform.position = Vector3.MoveTowards(transform.position, CreadRoad.instance.vectorPath[0], Time.deltaTime * 5f);
 
             }
 
         }
-        else if ((num1 < num4 && num1 < num2) && (num3 < num4) && (num3 < num4))
+        else if ((num0 < num3 && num0 < num1) && (num2 < num3) && (num2 < num3))
 
         {
             transform.rotation = Quaternion.LookRotation(new Vector3(0f, 0, 1f));
+
             transform.position = Vector3.MoveTowards(transform.position, CreadRoad.instance.vectorPath[0], Time.deltaTime * 5f);
             if (Vector3.Distance(transform.position, CreadRoad.instance.vectorPath[0]) < 0.3f)
             {
@@ -287,6 +300,7 @@ public class CarMoverment : MonoBehaviour
 
             }
         }
+        
 
     }
     public void SelectFromScreen()
@@ -413,12 +427,9 @@ public class CarMoverment : MonoBehaviour
                 }
             }
 
-
-
-
         }
 
     }
-        
+    
 
 }

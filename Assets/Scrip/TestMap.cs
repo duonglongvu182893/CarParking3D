@@ -17,6 +17,9 @@ public class TestMap : MonoBehaviour
     public Vector3[] wall;
 
     public List<GameObject> carIsOnMap = new List<GameObject>();
+
+
+    [HideInInspector]
     public GameObject wallObj;
 
 
@@ -40,7 +43,7 @@ public class TestMap : MonoBehaviour
     public GameObject blockEditor;
     [HideInInspector]
     public GameObject wallEditor;
-    //[HideInInspector]
+    [HideInInspector]
     public LayerMask layerMask;
     [HideInInspector]
     public List<Vector3> positionIntialCar = new List<Vector3>();
@@ -79,6 +82,7 @@ public class TestMap : MonoBehaviour
         GenWall();
         CreadRoad.instance.Test();
         SelecPositionBlock();
+        
         CreateCar();
         NumberOfCar();
         
@@ -99,27 +103,7 @@ public class TestMap : MonoBehaviour
                 Debug.Log(carIsOnMap.Count);
             }
         } 
-        GameObject CloneCar = PickCar(0);
-        Vector3 position = new Vector3(sizeX, 0, 4  );
-        if (CheckCanChoose(CloneCar, position))
-        {
-            GenCar(position, CloneCar);
-        }
-        position = new Vector3(sizeX, 0, 2);
-        if (CheckCanChoose(CloneCar, position))
-        {
-            GenCar(position, CloneCar);
-        }
-
-        CloneCar = PickCar(1);
-        position = new Vector3(sizeX, 0, 3);
-        if (CheckCanChoose(CloneCar, position))
-        {
-            GenCar(position, CloneCar);
-        }
-
-
-
+      
 
     }
     [System.Obsolete]
