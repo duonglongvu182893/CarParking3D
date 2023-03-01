@@ -31,11 +31,11 @@ public class TestMap : MonoBehaviour
     public GameObject boder;
     [HideInInspector]
     public GameObject Car;
-    [HideInInspector]
+    
     public GameObject Floor;
     [HideInInspector]
     public GameObject Boder;
-    [HideInInspector]
+    
     public GameObject floor;
     [HideInInspector]
     public GameObject blockOnMap;
