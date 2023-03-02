@@ -9,6 +9,9 @@ class Car : MonoBehaviour
 {
     public float offSet;
 
+    /// <summary>
+    /// car size 
+    /// </summary>
     public int id;
 
     public Quaternion rotation;
