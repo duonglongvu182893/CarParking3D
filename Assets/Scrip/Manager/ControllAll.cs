@@ -71,6 +71,10 @@ public class ControllAll : MonoBehaviour
         scriptableObject.positionWall = new List<Vector3>();
         scriptableObject.wallRotation = new List<Quaternion>();
         scriptableObject.isStraightType2 = new List<bool>();
+
+
+       
+
         for (int i = 0; i < TestMap.instance.carIsOnMap.Count; i++)
         {
             if (TestMap.instance.carIsOnMap[i].GetComponent<Car>().GetID() == 1)
@@ -99,6 +103,14 @@ public class ControllAll : MonoBehaviour
         {
             scriptableObject.positionBlock.Add(TestMap.instance.positionBlock[i].transform.position);
         }
+
+        /*
+        for(int i = 0; i < TestMap.instance.boderGen.Count; i++)
+        {
+            scriptableObject.boderPosition.Add(TestMap.instance.boderGen[i].transform.position);
+        }*/
+
+       
         EditorUtility.SetDirty(scriptableObject);
         JsonUtility.ToJson(scriptableObject);
         AssetDatabase.SaveAssets();

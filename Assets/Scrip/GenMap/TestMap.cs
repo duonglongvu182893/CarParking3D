@@ -72,7 +72,7 @@ public class TestMap : MonoBehaviour
     void Start()
     {
 
-        StartGenMap();
+        //StartGenMap();
 
     }
     [System.Obsolete]

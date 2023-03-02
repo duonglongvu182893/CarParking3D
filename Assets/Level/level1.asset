@@ -14,19 +14,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sizeX: 3
   sizeZ: 3
-  numberCar: 3
+  numberCar: 2
   positionCarType1:
   - {x: -0.000000059604645, y: 0, z: 0.5}
   - {x: 2, y: 0, z: 0.48}
   quaternionCarType1:
-  - {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
-  - {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
+  - {x: 0, y: 0, z: 0, w: 0}
+  - {x: 0, y: 0, z: 0, w: 0}
   positionCarType2:
   - {x: 0.75, y: 0, z: 2}
   quaternionCarType2:
-  - {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  - {x: 0, y: 0, z: 0, w: 0}
   isStraightType1: 0000
   isStraightType2: 01
   positionBlock: []
   positionWall: []
   wallRotation: []
+  roadPosition:
+  - {x: -2, y: 0, z: -2}
+  - {x: -2, y: 0, z: -1}
+  - {x: -2, y: 0, z: 0}
+  - {x: -2, y: 0, z: 1}
+  - {x: -2, y: 0, z: 2}
+  - {x: -2, y: 0, z: 3}
+  - {x: -2, y: 0, z: 4}
+  - {x: -1, y: 0, z: -2}
+  - {x: -1, y: 0, z: 4}
+  - {x: 0, y: 0, z: -2}
+  - {x: 0, y: 0, z: 4}
+  - {x: 1, y: 0, z: -2}
+  - {x: 1, y: 0, z: 4}
+  - {x: 2, y: 0, z: -2}
+  - {x: 2, y: 0, z: 4}
+  - {x: 3, y: 0, z: -2}
+  - {x: 3, y: 0, z: 4}
+  - {x: 4, y: 0, z: -2}
+  - {x: 4, y: 0, z: -1}
+  - {x: 4, y: 0, z: 0}
+  - {x: 4, y: 0, z: 1}
+  - {x: 4, y: 0, z: 2}
+  - {x: 4, y: 0, z: 3}
+  - {x: 4, y: 0, z: 4}
+  boderPosition: []

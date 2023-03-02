@@ -5,10 +5,22 @@ using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
-    
+    public List<GameObject> Car;
+    public GameObject block;
+    public GameObject wall;
+    public GameObject floor;
+    public GameObject road;
+
+    public GameObject carObj;
+    public GameObject fenceObj;
+    public GameObject floorObj;
+    public GameObject roadObj;
+    public int level;
+
+    [System.Obsolete]
     void Start()
     {
-        
+        ReadDataFromSO("2");
     }
 
    
@@ -18,5 +30,79 @@ public class GameManager : MonoBehaviour
 
 
     }
+
+    //doc information tu SO va tao map
+    [System.Obsolete]
+    public void ReadDataFromSO(string level)
+    {
+
+        string path = "Assets/Level/level" + level + ".asset";
+        // Load ScriptableObject
+        Level scriptableObject = AssetDatabase.LoadAssetAtPath<Level>(path);
+
+        // Kiểm tra xem đối tượng đã được load thành công hay chưa
+        if (scriptableObject == null)
+        {
+            Debug.LogError("Could not load ScriptableObject at path: " + path);
+            return;
+        }
+
+        // Sử dụng đối tượng ScriptableObject đã được load
+        TestMap.instance.sizeX = scriptableObject.sizeX;
+        TestMap.instance.sizeZ = scriptableObject.sizeZ;
+
+        GenFloor(scriptableObject.sizeX, scriptableObject.sizeZ);
+
+        CreadRoad.instance.Test();
+
+        for (int i = 0; i < scriptableObject.positionCarType1.Count; i++)
+        {
+            GameObject car = Instantiate(Car[1], scriptableObject.positionCarType1[i], scriptableObject.quaternionCarType1[i]);
+            car.transform.GetComponent<Car>().isStraight = scriptableObject.isStraightType1[i];
+            //car.transform.GetComponent<Car>().rotation = scriptableObject.quaternionCarType1[i];
+            TestMap.instance.carIsOnMap.Add(car);
+            car.transform.parent = carObj.transform;
+
+
+        }
+        for (int i = 0; i < scriptableObject.positionCarType2.Count; i++)
+        {
+            GameObject car = Instantiate(Car[0], scriptableObject.positionCarType2[i], scriptableObject.quaternionCarType2[i]);
+            TestMap.instance.carIsOnMap.Add(car);
+            car.transform.parent = carObj.transform;
+            car.transform.GetComponent<Car>().isStraight = scriptableObject.isStraightType2[i];
+
+        }
+        for (int i = 0; i < scriptableObject.positionBlock.Count; i++)
+        {
+            GameObject blockClone = Instantiate(block, scriptableObject.positionBlock[i], Quaternion.identity);
+            TestMap.instance.transform.parent = TestMap.instance.blockEditor.transform;
+        }
+        for (int i = 0; i < scriptableObject.positionWall.Count; i++)
+        {
+            GameObject wallClone = Instantiate(wall, scriptableObject.positionWall[i], scriptableObject.wallRotation[i]);
+            wallClone.transform.parent = fenceObj.transform;
+
+        }
+
+    }
+
+    //Gen floor
+    public void GenFloor(int sizeX, int sizeZ)
+    {
+        for (int i = 0; i <= sizeX - 1; i++)
+        {
+            for (int j = 0; j <= sizeZ - 1; j++)
+            {
+                Vector3 pos = new Vector3(i, 0, j);
+                GameObject firtBlock = Instantiate(floor, pos, Quaternion.identity);
+                firtBlock.transform.parent = floorObj.transform;
+            }
+        }
+       
+    }
+
+    //Gen Road
    
+  
 }
