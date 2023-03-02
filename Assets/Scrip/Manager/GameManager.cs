@@ -18,6 +18,10 @@ public class GameManager : MonoBehaviour
     public GameObject roadObj;
     public int level;
 
+    public GameObject nearCam;
+    public GameObject farCam;
+
+
     [System.Obsolete]
     void Start()
     {
@@ -27,9 +31,6 @@ public class GameManager : MonoBehaviour
    
     void Update()
     {
-
-
-
     }
 
     //doc information tu SO va tao map
@@ -51,7 +52,16 @@ public class GameManager : MonoBehaviour
         // Sử dụng đối tượng ScriptableObject đã được load
         TestMap.instance.sizeX = scriptableObject.sizeX;
         TestMap.instance.sizeZ = scriptableObject.sizeZ;
-
+        if(scriptableObject.sizeX == scriptableObject.sizeZ)
+        {
+            nearCam.SetActive(true);
+            farCam.SetActive(false);
+        }
+        else
+        {
+            nearCam.SetActive(false);
+            farCam.SetActive(true); 
+        }
         GenFloor(scriptableObject.sizeX, scriptableObject.sizeZ);
 
         CreadRoad.instance.GetInformation();
