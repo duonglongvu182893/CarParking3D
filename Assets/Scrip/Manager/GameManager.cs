@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public GameObject wall;
     public GameObject floor;
     public GameObject road;
+    public GameObject turnRoad;
 
     public GameObject carObj;
     public GameObject fenceObj;
@@ -20,7 +21,7 @@ public class GameManager : MonoBehaviour
     [System.Obsolete]
     void Start()
     {
-        ReadDataFromSO("2");
+        ReadDataFromSO("1");
     }
 
    
@@ -53,7 +54,53 @@ public class GameManager : MonoBehaviour
 
         GenFloor(scriptableObject.sizeX, scriptableObject.sizeZ);
 
-        CreadRoad.instance.Test();
+        CreadRoad.instance.GetInformation();
+
+        
+        for(int i = 0; i < scriptableObject.roadPostion.Count; i++)
+        {
+            if (scriptableObject.roadPostion[i].x == -2 && scriptableObject.roadPostion[i].z == -2)
+            {
+
+                GameObject roadClone = Instantiate(turnRoad, scriptableObject.roadPostion[i], Quaternion.identity);
+                roadClone.transform.rotation = Quaternion.LookRotation(new Vector3(-1f, 0, 0));
+                roadClone.transform.parent = roadObj.transform;
+            }
+            else if (scriptableObject.roadPostion[i].x == -2 && scriptableObject.roadPostion[i].z == TestMap.instance.sizeZ + 1)
+            {
+
+                GameObject roadClone = Instantiate(turnRoad, scriptableObject.roadPostion[i], Quaternion.identity);
+                roadClone.transform.parent = roadObj.transform;
+            }
+            else if (scriptableObject.roadPostion[i].z == -2 && scriptableObject.roadPostion[i].x == TestMap.instance.sizeX + 1)
+            {
+
+                GameObject roadClone = Instantiate(turnRoad, scriptableObject.roadPostion[i], Quaternion.identity);
+                roadClone.transform.rotation = Quaternion.LookRotation(new Vector3(0, 0, -1));
+                roadClone.transform.parent = roadObj.transform;
+            }
+            else if (scriptableObject.roadPostion[i].z == TestMap.instance.sizeZ + 1 && scriptableObject.roadPostion[i].x == TestMap.instance.sizeX + 1)
+            {
+
+                GameObject roadClone = Instantiate(turnRoad, scriptableObject.roadPostion[i], Quaternion.identity);
+                roadClone.transform.rotation = Quaternion.LookRotation(new Vector3(1, 0, 0));
+                roadClone.transform.parent = roadObj.transform;
+            }
+            else if ((scriptableObject.roadPostion[i].z == -2 )|| scriptableObject.roadPostion[i].z == TestMap.instance.sizeZ + 1)
+            {
+                GameObject roadClone = Instantiate(road, scriptableObject.roadPostion[i], Quaternion.identity);
+                roadClone.transform.rotation = Quaternion.LookRotation(new Vector3(1f, 0, 0));
+                roadClone.transform.parent = roadObj.transform;
+            }
+           
+            else
+            {
+                GameObject roadClone = Instantiate(road, scriptableObject.roadPostion[i], Quaternion.identity);
+                roadClone.transform.parent = roadObj.transform;
+            }
+            
+
+        }
 
         for (int i = 0; i < scriptableObject.positionCarType1.Count; i++)
         {
@@ -102,7 +149,7 @@ public class GameManager : MonoBehaviour
        
     }
 
-    //Gen Road
+   
    
   
 }

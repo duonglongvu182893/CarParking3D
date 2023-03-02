@@ -71,8 +71,7 @@ public class ControllAll : MonoBehaviour
         scriptableObject.positionWall = new List<Vector3>();
         scriptableObject.wallRotation = new List<Quaternion>();
         scriptableObject.isStraightType2 = new List<bool>();
-
-
+        scriptableObject.roadPostion = new List<Vector3>();
        
 
         for (int i = 0; i < TestMap.instance.carIsOnMap.Count; i++)
@@ -104,11 +103,11 @@ public class ControllAll : MonoBehaviour
             scriptableObject.positionBlock.Add(TestMap.instance.positionBlock[i].transform.position);
         }
 
-        /*
-        for(int i = 0; i < TestMap.instance.boderGen.Count; i++)
+        
+        for(int i = 0; i < CreadRoad.instance.Road.Count; i++)
         {
-            scriptableObject.boderPosition.Add(TestMap.instance.boderGen[i].transform.position);
-        }*/
+            scriptableObject.roadPostion.Add(CreadRoad.instance.Road[i].transform.position);
+        }
 
        
         EditorUtility.SetDirty(scriptableObject);

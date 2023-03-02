@@ -28,6 +28,7 @@ public class Level : ScriptableObject
     public List<Quaternion> wallRotation;
 
 
-  
+
+    public List<Vector3> roadPostion;
 }
     

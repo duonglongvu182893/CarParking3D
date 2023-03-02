@@ -86,7 +86,7 @@ public class CreadRoad : MonoBehaviour
 
             }
         }
-        GenRoad();
+       
 
     }
     void GenRoad()
@@ -137,6 +137,13 @@ public class CreadRoad : MonoBehaviour
         rows = TestMap.instance.sizeX +1 ;
         coloums = TestMap.instance.sizeZ  +1;
         GeneateGrid();
-       // CreateVector();
+        GenRoad();
+        // CreateVector();
+    }
+    public void GetInformation()
+    {
+        rows = TestMap.instance.sizeX + 1;
+        coloums = TestMap.instance.sizeZ + 1;
+        GeneateGrid();
     }
 }
